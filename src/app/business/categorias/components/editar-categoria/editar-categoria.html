@@ -1,0 +1,75 @@
+<!-- From Uiverse.io by themrsami --> 
+<div class="container px-4 mx-auto">
+  <div class="mx-auto">
+    <div class="max-w-md mx-auto px-8 py-6 bg-gray-200 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Agrege una nueva Categoria</h2>
+      <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label class="block text-gray-800 mb-1" for="name">nombre de la categoria</label>
+          <input
+            class="w-full px-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
+            placeholder="Ingrese el nombre de la categoria"
+            type="text"
+            formControlName="nombre"
+          />
+          @if(categoriaForm.get('nombre')?.invalid && categoriaForm.get('nombre')?.touched){
+             @if (categoriaForm.get('nombre')?.hasError('required')) {
+              <span class="text-xl text-red-700">El campo nombre es obligatorio</span>
+             }
+             @if (categoriaForm.get('nombre')?.hasError('maxlength')) {
+              <span class="error">Numero de caractes maximo es 20</span>
+             }
+            }
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-800 mb-1" for="message"
+            >Descripcion de la categoria</label
+          >
+          <textarea
+            class="w-full px-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300"
+            rows="4"
+            placeholder="ingrese la descripcion de la categoria"
+            name="message"
+            id="message"
+            formControlName="descripcion"
+            [class.border-red-500]="categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched"
+          ></textarea>
+                      @if (categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched) {
+              @if (categoriaForm.get('descripcion')?.hasError('required')) {
+                <span class="text-xl text-red-700">El campo descripcion es obligatorio</span>
+              }
+              @if (categoriaForm.get('descripcion')?.hasError('maxlength')) {
+                <span class="text-xl text-red-700">Numero maximo de caracteres es de 128</span>
+              }
+            }
+        </div>
+        <button
+          class="w-full font-semibold bg-blue-600 text-white mb-2.5 py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-300"
+           [ngClass]="{
+            'cursor-not-allowed opacity-50': categoriaForm.invalid,
+            'hover:bg-blue-800': categoriaForm.valid
+                      }"
+          type="submit"
+          [disabled]="categoriaForm.invalid"
+        >
+          Actualizar Categoria
+        </button>
+        <button [routerLink]="['/listar-categorias']"  class="w-full font-semibold bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-800 transition duration-300">
+            Cancelar
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+@if (success) {
+  <div class="fixed inset-0 z-50 grid place-items-center bg-white/50 backdrop-blur-sm">
+    <div class="flex flex-col items-center justify-center bg-green-100 border border-green-300 text-green-800 rounded-lg p-6 animate-fade-in">
+      <svg class="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span class="text-lg font-semibold">¡Operación exitosa!</span>
+    </div>
+  </div>
+}

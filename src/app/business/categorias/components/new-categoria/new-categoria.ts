@@ -1,0 +1,57 @@
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CategoriaService } from '../../services/categoria-service';
+import { Categoria } from '../../models/categoria-model';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-new-categoria',
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink],
+  templateUrl: './new-categoria.html',
+  styleUrl: './new-categoria.css'
+})
+export default class NewCategoria {
+  categoriasService = inject(CategoriaService);
+  categoriaForm: FormGroup;
+  
+  success = false;
+  
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ){
+    console.log('componente creado')
+    this.categoriaForm = this.fb.group({
+    nombre: ['', [Validators.required, Validators.maxLength(20)]],
+    descripcion: ['', [Validators.required, Validators.maxLength(128)]]
+  });
+  }
+
+  onSubmit(): void{
+    console.log('¡onSubmit ejecutado!');
+      console.trace('🔁 Submit llamado');
+    const newCategory: Categoria = this.categoriaForm.value;
+    console.log('Categoría a enviar al backend:', JSON.stringify(this.categoriaForm.value, null, 2));
+    this.categoriasService.crateCategory(newCategory).subscribe(
+      () => {
+        this.mostrarExito();
+        // Esperamos 2 segundos antes de navegar
+        setTimeout(() => {
+        this.router.navigate(['/listar-categorias']);
+        }, 1000);
+      }
+    )
+  }
+
+//para mostrar una animacion despues de operacion exitosa
+
+mostrarExito(): void {
+  this.success = true;
+
+  setTimeout(() => {
+    this.success = false;
+  }, 1000); // 2.5 segundos visible
+}
+
+}
