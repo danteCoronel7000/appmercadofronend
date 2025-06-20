@@ -30,16 +30,16 @@ export default class NewCategoria {
 
   onSubmit(): void{
     console.log('¡onSubmit ejecutado!');
-      console.trace('🔁 Submit llamado');
+    console.trace('🔁 Submit llamado');
     const newCategory: Categoria = this.categoriaForm.value;
     console.log('Categoría a enviar al backend:', JSON.stringify(this.categoriaForm.value, null, 2));
     this.categoriasService.crateCategory(newCategory).subscribe(
       () => {
         this.mostrarExito();
-        // Esperamos 2 segundos antes de navegar
+        // Esperamos 1 segundo antes de navegar
         setTimeout(() => {
         this.router.navigate(['/listar-categorias']);
-        }, 1000);
+        }, 800);
       }
     )
   }
@@ -51,7 +51,7 @@ mostrarExito(): void {
 
   setTimeout(() => {
     this.success = false;
-  }, 1000); // 2.5 segundos visible
+  }, 800); // 2.5 segundos visible
 }
 
 }
