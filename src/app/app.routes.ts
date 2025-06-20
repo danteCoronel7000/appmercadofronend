@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { areYouLoggedInGuard } from './core/guards/are-you-logged-in-guard';
 import { areYouHomeGuard } from './core/guards/are-you-home-guard';
+import { CATEGORIAS_ROUTES } from './business/categorias/routes/categorias.routes';
 
 export const routes: Routes = [
      {
@@ -22,24 +23,7 @@ export const routes: Routes = [
             loadComponent: () => import('./business/productos/components/listart-productos/listart-productos'),
             canActivate: [areYouLoggedInGuard]
           },
-          {
-            path: 'listar-categorias',
-            loadComponent: () => import('./business/categorias/components/categorias-list/categorias-list'),
-            canActivate: [areYouLoggedInGuard]
-          },
-          {
-            path: 'nueva-categoria',
-            loadComponent: () => import('./business/categorias/components/new-categoria/new-categoria'),
-            canActivate: [areYouLoggedInGuard]
-          },
-          {
-            path: 'editar-categoria',
-            loadComponent: () => import('./business/categorias/components/editar-categoria/editar-categoria')
-          },
-          {
-            path: 'delete-categoria',
-            loadComponent: () => import('./business/categorias/components/delete-categoria/delete-categoria')
-          }
+          ...CATEGORIAS_ROUTES
         ]
       },
       {
