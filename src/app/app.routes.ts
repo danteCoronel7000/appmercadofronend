@@ -3,6 +3,8 @@ import { areYouLoggedInGuard } from './core/guards/are-you-logged-in-guard';
 import { areYouHomeGuard } from './core/guards/are-you-home-guard';
 import { CATEGORIAS_ROUTES } from './business/categorias/routes/categorias.routes';
 import { PRODUCTOS_ROUTES } from './business/productos/routes/productos.routes';
+import { PEDIDOS_ROUTES } from './business/pedidos/routes/pedidos.routes';
+import { REPORTES_ROUTES } from './business/reportes/routes/reportes.routes';
 
 export const routes: Routes = [
      {
@@ -21,7 +23,10 @@ export const routes: Routes = [
           },
        
           ...CATEGORIAS_ROUTES,
-          ...PRODUCTOS_ROUTES
+          ...PRODUCTOS_ROUTES,
+          ...PEDIDOS_ROUTES,
+          ...REPORTES_ROUTES
+          
         ]
       },
       {

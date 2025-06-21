@@ -13,7 +13,6 @@ import { error } from 'console';
 })
 export default class CategoriasList {
   listCategorys: Categoria[] = [];
-
   categoriasService = inject(CategoriaService);
 
 

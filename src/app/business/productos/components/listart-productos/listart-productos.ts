@@ -29,23 +29,22 @@ export default class ListartProductos {
     this.productosService.setIdProducto(id);
     this.router.navigate(['/editar-productos'])
   }
-
+//metodo para mandar el nombre del producto y id al servicio
   protected getIdAndName(id: number, nombre: string){
     this.productosService.setIdProducto(id);
     this.productosService.setNameProducto(nombre);
   }
 
   buscarPorNombre(nombre: string): void {
-    /*
     const value = nombre.trim();
     if (value) {
-      this.productosService.buscarCategoria(value).subscribe({
-        next: (categorias) => this.listCategorys = categorias,
+      this.productosService.buscarProducto(value).subscribe({
+        next: (categorias) => this.listProductos = categorias,
         error: (err) => console.log('error al buscar', err)
       });
     } else {
-      this.getCategorys();
+      this.getProductos();
     }
-      */
+      
   }
 }

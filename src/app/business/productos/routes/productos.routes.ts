@@ -15,5 +15,9 @@ export const PRODUCTOS_ROUTES: Routes = [
     {
         path: 'editar-productos',
         loadComponent: () => import('../components/editar-producto/editar-producto')
+    },
+    {
+        path: 'delete-producto',
+        loadComponent: () => import('../components/delete-prdoducto/delete-prdoducto')
     }
 ]

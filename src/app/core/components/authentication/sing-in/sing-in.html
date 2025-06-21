@@ -1,13 +1,13 @@
  <div class="login-wrapper">
         <div class="form-container">
-            <p class="title">Welcome back</p>
+            <p class="title">Iniciar Sesion</p>
             <form [formGroup]="loginForm" (ngSubmit)="login()" class="form">
-                <input formControlName="user" type="text" class="input" placeholder="nombre">
+                <input formControlName="user" type="text" class="input" placeholder="nombre" autofocus>
                 <input formControlName="password" type="password" class="input" placeholder="contraseña">
                 <p class="page-link">
                     <span class="page-link-label">Forgot Password?</span>
                 </p>
-                <button class="form-btn" type="submit">Log in</button>
+                <button class="form-btn" type="submit">Ingresar</button>
             </form>
             <p class="sign-up-label">
                 Don't have an account?<span class="sign-up-link">Sign up</span>

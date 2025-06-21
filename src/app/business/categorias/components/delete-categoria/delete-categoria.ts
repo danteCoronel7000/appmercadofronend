@@ -11,7 +11,6 @@ import { Router, RouterLink } from '@angular/router';
 export default class DeleteCategoria {
 
   private categoriaService = inject(CategoriaService)
-  private categoryService = inject(CategoriaService);
 
   success = false;
    
@@ -27,7 +26,7 @@ export default class DeleteCategoria {
 deleteCategory(): void {
   console.log('id categoria a eliminar: ' + this.idCategory);
   
-  this.categoryService.deleteCategory(this.idCategory).subscribe({
+  this.categoriaService.deleteCategory(this.idCategory).subscribe({
     next: () => {
       // Se ejecuta cuando la operación es exitosa
       this.mostrarExito();
@@ -68,7 +67,6 @@ deleteCategory(): void {
 
 */
   //para mostrar una animacion despues de operacion exitosa
-
 mostrarExito(): void {
   this.success = true;
 
