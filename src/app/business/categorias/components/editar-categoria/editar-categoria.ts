@@ -53,13 +53,12 @@ export default class EditarCategoria {
     )
   }
 
-//para mostrar una animacion despues de operacion exitosa
+  //para mostrar una animacion despues de operacion exitosa
+  mostrarExito(): void {
+    this.success = true;
 
-mostrarExito(): void {
-  this.success = true;
-
-  setTimeout(() => {
-    this.success = false;
-  }, 1000); // 2.5 segundos visible
-}
+    setTimeout(() => {
+      this.success = false;
+    }, 1000); // 2.5 segundos visible
+  }
 }

@@ -12,4 +12,8 @@ export const PRODUCTOS_ROUTES: Routes = [
         loadComponent: () => import('../components/listart-productos/listart-productos'),
         canActivate: [areYouLoggedInGuard]
     },
+    {
+        path: 'editar-productos',
+        loadComponent: () => import('../components/editar-producto/editar-producto')
+    }
 ]

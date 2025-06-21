@@ -5,11 +5,11 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Producto } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-new-producto',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './new-producto.html',
   styleUrl: './new-producto.css'
 })
@@ -30,7 +30,7 @@ export default class NewProducto {
       descripcion: [''],
       precio: [null, [Validators.required, Validators.min(0)]],
       perecedero: [false],
-      unidad: ['', Validators.required],
+      unidadMedida: ['', Validators.required],
       categoria: ['', Validators.required]
     })
   }

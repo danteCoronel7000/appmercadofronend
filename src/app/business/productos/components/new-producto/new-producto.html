@@ -32,8 +32,8 @@
       </div>
 
       <div class="mb-2">
-        <label class="text-gray-800 mb-1" for="unidad">Unidad de medida</label>
-        <select formControlName="unidad" id="unidad"
+        <label class="text-gray-800 mb-1" for="unidadMedida">Unidad de medida</label>
+        <select formControlName="unidadMedida" id="unidadMedida"
           class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm">
           <option value="">Seleccione una unidad de medida</option>
           <option value="Lt">Litros</option>
@@ -68,6 +68,12 @@
                       [disabled]="productoForm.invalid">
         Crear Producto
       </button>
+      <button
+         type="button"
+          [routerLink]="['/listar-productos']"
+          class="bg-gradient-to-r from-indigo-500 to-blue-500 text-white font-bold py-2 px-4 rounded-md mt-2 hover:bg-indigo-600 hover:to-blue-600 transition ease-in-out duration-150">
+            Cancelar
+        </button>
     </form>
   </div>
 </div>

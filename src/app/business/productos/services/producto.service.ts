@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { computed, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Producto } from '../models/producto.model';
 
@@ -8,11 +8,48 @@ import { Producto } from '../models/producto.model';
 })
 export class ProductoService {
   private urlSaveProducto: string = 'http://localhost:8080/api/productos/save';
+  private url: string = 'http://localhost:8080/api/productos';
 
-  constructor(private httClient: HttpClient) { }
+    #idProducto = signal<number>(0);
+  idProducto = computed(() => this.#idProducto())
+
+  #nameProducto = signal<string>('');
+   nameProducto = computed(() => this.#nameProducto())
+
+  constructor(private httpClient: HttpClient) { }
+
+   public setIdProducto(value: number): void {
+    this.#idProducto.set(value);
+  }
+
+    public setNameProducto(value: string): void {
+    this.#nameProducto.set(value);
+  }
 
     // Método para crear persona
   createProducto(formData: FormData): Observable<Producto> {
-    return this.httClient.post<Producto>(this.urlSaveProducto, formData);
+    return this.httpClient.post<Producto>(this.urlSaveProducto, formData);
   }
+
+  getProductos(): Observable<Producto[]> {
+    return this.httpClient.get<Producto[]>(this.url);
+  }
+
+  updateProducto(formData: FormData): Observable<Producto> {
+    return this.httpClient.put<Producto>(`${this.url}/update`, formData);
+  }
+
+  getProductoById(id: number): Observable<Producto> {
+    return this.httpClient.get<Producto>(`${this.url}/${id}`);
+  }
+
+  deleteProducto(id: number): Observable<Producto> {
+    return this.httpClient.delete<Producto>(`${this.url}/${id}`);
+  }
+
+  buscarProducto(nombre: string): Observable<Producto[]> {
+    const params = new HttpParams().set('nombre', nombre);
+    return this.httpClient.get<Producto[]>(`${this.url}/buscar`, { params });
+  }
+
 }

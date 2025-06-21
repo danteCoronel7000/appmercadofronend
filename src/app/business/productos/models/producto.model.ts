@@ -1,12 +1,13 @@
 
 export interface Producto {
-  id?: number;
+  id: number;
   nombre: string;
   descripcion: string;
   precio: number;
   perecedero: boolean;
   unidadMedida: string;
   categoria: Categoria;
+  image?: Image
 }
 
 export interface Categoria {
