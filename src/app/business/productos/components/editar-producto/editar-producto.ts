@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Categoria, Producto } from '../../models/producto.model';
-import { CategoriaService } from '../../../categorias/services/categoria-service';
+import { CategoriaService } from '../../../categorias/services/categoria.service';
 import { ProductoService } from '../../services/producto.service';
 
 @Component({
@@ -29,6 +29,7 @@ constructor(private fb: FormBuilder, private router: Router){
     this.productoForm = this.fb.group({
       id: [''],
       nombre: ['', Validators.required],
+      medida: ['', Validators.required],
       descripcion: [''],
       precio: [null, [Validators.required, Validators.min(0)]],
       perecedero: [false],
@@ -62,7 +63,7 @@ constructor(private fb: FormBuilder, private router: Router){
 
      const producto: Producto = {
           ...this.productoForm.value,
-          categoria: { id: +this.productoForm.value.categoria }  // 👈 arreglamos esto
+          categoria: { id: +this.productoForm.value.categoria }  // convertirmo de: categoria = '2' a esto: categoria = { id: 2 }
         };
 
       const formData = new FormData();

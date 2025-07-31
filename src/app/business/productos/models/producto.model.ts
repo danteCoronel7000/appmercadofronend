@@ -6,6 +6,7 @@ export interface Producto {
   precio: number;
   perecedero: boolean;
   unidadMedida: string;
+  medida: string;
   categoria: Categoria;
   image?: Image
 }

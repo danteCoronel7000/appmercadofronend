@@ -2,7 +2,7 @@
 <div class="container px-4 mx-auto">
   <div class="mx-auto">
     <div class="max-w-md mx-auto px-8 py-6 bg-gray-200 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Agrege una nueva Categoria</h2>
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Editar Categoria</h2>
       <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
         <div class="mb-4">
           <label class="block text-gray-800 mb-1" for="name">nombre de la categoria</label>
@@ -21,6 +21,12 @@
              }
             }
         </div>
+              <label class="block mb-1 text-gray-800" for="file_input">Subir imagen de la categoria</label>
+      <div class="mb-2 flex items-center gap-2">
+        <img [src]="imageUrl" class="w-16 h-16 rounded-md object-cover" alt="">
+        <input type="file" id="file_input" (change)="onFileSelected($event)"
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" />
+      </div>
         <div class="mb-4">
           <label class="block text-gray-800 mb-1" for="message"
             >Descripcion de la categoria</label

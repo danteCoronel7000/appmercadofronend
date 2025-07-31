@@ -3,6 +3,7 @@ import { Producto } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ProductoSocketService } from '../../services/producto-socket.service';
 
 @Component({
   selector: 'app-listart-productos',
@@ -13,10 +14,29 @@ import { CommonModule } from '@angular/common';
 export default class ListartProductos {
   listProductos: Producto[] = [] ;
   productosService = inject(ProductoService)
+  productoSocketService = inject(ProductoSocketService);
 
   constructor(private router: Router){
     this.getProductos();
+    this.getNewProductByWebSocket();
   }
+
+getNewProductByWebSocket(): void {
+  this.productoSocketService.productoActualizado$.subscribe(producto => {
+    console.log('nuevo producto recibido', producto);
+
+    const index = this.listProductos.findIndex(p => p.id === producto.id);//recorremos la lista actual de productos comparando si alngun id de la lista actual coincide con el id del nuevo producto creado
+
+    if (index !== -1) {
+      // Ya existe → lo actualizamos
+      this.listProductos[index] = producto;
+    } else {
+      // No existe → lo agregamos al final
+      this.listProductos.push(producto);
+    }
+  });
+}
+
 
    getProductos(): void{
     this.productosService.getProductos().subscribe({

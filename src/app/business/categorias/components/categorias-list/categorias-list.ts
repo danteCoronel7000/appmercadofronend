@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Categoria } from '../../models/categoria-model';
-import { CategoriaService } from '../../services/categoria-service';
+import { CategoriaService } from '../../services/categoria.service';
 import { error } from 'console';
 
 

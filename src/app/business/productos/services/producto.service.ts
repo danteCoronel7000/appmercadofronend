@@ -9,6 +9,7 @@ import { Producto } from '../models/producto.model';
 export class ProductoService {
   private urlSaveProducto: string = 'http://localhost:8080/api/productos/save';
   private url: string = 'http://localhost:8080/api/productos';
+  private url_publica: string = 'http://localhost:8080/api/productos/get';
 
     #idProducto = signal<number>(0);
   idProducto = computed(() => this.#idProducto())
@@ -32,7 +33,7 @@ export class ProductoService {
   }
 
   getProductos(): Observable<Producto[]> {
-    return this.httpClient.get<Producto[]>(this.url);
+    return this.httpClient.get<Producto[]>(`${this.url_publica}/all`);
   }
 
   updateProducto(formData: FormData): Observable<Producto> {
@@ -40,7 +41,7 @@ export class ProductoService {
   }
 
   getProductoById(id: number): Observable<Producto> {
-    return this.httpClient.get<Producto>(`${this.url}/${id}`);
+    return this.httpClient.get<Producto>(`${this.url_publica}/${id}`);
   }
 
   deleteProducto(id: number): Observable<Producto> {
@@ -49,7 +50,7 @@ export class ProductoService {
 
   buscarProducto(nombre: string): Observable<Producto[]> {
     const params = new HttpParams().set('nombre', nombre);
-    return this.httpClient.get<Producto[]>(`${this.url}/buscar`, { params });
+    return this.httpClient.get<Producto[]>(`${this.url_publica}/buscar`, { params });
   }
 
 }

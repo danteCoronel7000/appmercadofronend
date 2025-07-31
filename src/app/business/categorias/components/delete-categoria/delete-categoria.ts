@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CategoriaService } from '../../services/categoria-service';
+import { CategoriaService } from '../../services/categoria.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({

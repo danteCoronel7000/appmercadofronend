@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CategoriaService } from '../../../categorias/services/categoria-service';
+import { CategoriaService } from '../../../categorias/services/categoria.service';
 import { Categoria } from '../../../categorias/models/categoria-model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -27,6 +27,7 @@ export default class NewProducto {
     //inicializamos formulario
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
+      medida: ['', Validators.required],
       descripcion: [''],
       precio: [null, [Validators.required, Validators.min(0)]],
       perecedero: [false],

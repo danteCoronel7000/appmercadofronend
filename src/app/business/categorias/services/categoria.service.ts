@@ -9,6 +9,9 @@ import { Observable } from 'rxjs';
 export class CategoriaService {
 
   private url = 'http://localhost:8080/api/categorias';
+  private url_publica = 'http://localhost:8080/api/categorias/get';
+  private urlCreate = 'http://localhost:8080/api/categorias/save';
+
   #idCategory = signal<number>(0);
   idCategory = computed(() => this.#idCategory())
 
@@ -31,16 +34,24 @@ export class CategoriaService {
     return this.httpClient.post<Categoria>(`${this.url}/crear`, categoria);
   }
 
-  getCategory(): Observable<Categoria[]>{
-    return this.httpClient.get<Categoria[]>(this.url);
+  createCategoria(formData: FormData): Observable<Categoria>{
+    return this.httpClient.post<Categoria>(this.urlCreate, formData);
   }
 
+  getCategory(): Observable<Categoria[]>{
+    return this.httpClient.get<Categoria[]>(this.url_publica);
+  }
+
+  /*
   updateCategory(id: number, categoria: Categoria): Observable<Categoria>{
     return this.httpClient.put<Categoria>(`${this.url}/${id}`, categoria);
-  }
+  }*/
+ updateCategoria(formData: FormData): Observable<Categoria> {
+  return this.httpClient.put<Categoria>(`${this.url}/update`, formData);
+}
 
   getCategoryById(id: number): Observable<Categoria>{
-    return this.httpClient.get<Categoria>(`${this.url}/${id}`);
+    return this.httpClient.get<Categoria>(`${this.url_publica}/${id}`);
   }
 
   deleteCategory(id: number): Observable<Categoria>{
@@ -49,6 +60,6 @@ export class CategoriaService {
 
   buscarCategoria(nombre: string): Observable<Categoria[]>{
     const params = new HttpParams().set('nombre', nombre);
-    return this.httpClient.get<Categoria[]>(`${this.url}/buscar`, { params});
+    return this.httpClient.get<Categoria[]>(`${this.url_publica}/buscar`, { params});
   }
 }
