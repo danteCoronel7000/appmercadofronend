@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Producto } from '../models/producto.model';
+import { PageableResponse } from '../../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,42 @@ export class ProductoService {
   buscarProducto(nombre: string): Observable<Producto[]> {
     const params = new HttpParams().set('nombre', nombre);
     return this.httpClient.get<Producto[]>(`${this.url_publica}/buscar`, { params });
+  }
+
+   // Método para obtener productos paginados
+  getProductosPaginados(
+    page: number = 0,
+    size: number = 5,
+    sortBy: string = 'nombre',
+    sortDir: string = 'asc'
+  ): Observable<PageableResponse<Producto>> {
+    
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDir', sortDir);
+
+    return this.httpClient.get<PageableResponse<Producto>>(`${this.url_publica}/paginado`, { params });
+  }
+
+  // Método para buscar productos por nombre con paginación
+  buscarProductosPorNombre(
+    nombre: string,
+    page: number = 0,
+    size: number = 10,
+    sortBy: string = 'nombre',
+    sortDir: string = 'asc'
+  ): Observable<PageableResponse<Producto>> {
+    
+    let params = new HttpParams()
+      .set('nombre', nombre)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('sortBy', sortBy)
+      .set('sortDir', sortDir);
+
+    return this.httpClient.get<PageableResponse<Producto>>(`${this.url_publica}/buscar`, { params });
   }
 
 }

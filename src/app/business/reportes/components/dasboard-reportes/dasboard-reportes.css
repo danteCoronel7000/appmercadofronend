@@ -1,0 +1,237 @@
+  
+
+        /* VERSIÓN 1: HOVER POPOVER */
+        .hover-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hover-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .hover-popover {
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 280px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .hover-container:hover .hover-popover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        /* VERSIÓN 2: CLICK POPOVER CON CHECKBOX */
+        .click-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .popover-toggle {
+            display: none;
+        }
+
+        .click-button {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+
+        .click-button:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .click-popover {
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%) scale(0.8);
+            width: 280px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            transform-origin: left center;
+        }
+
+        .popover-toggle:checked + .click-button + .click-popover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) scale(1);
+        }
+
+        /* ESTILOS COMUNES PARA AMBOS POPOVERS */
+        .popover-header {
+            background-color: #f9fafb;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .popover-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+        }
+
+        .popover-content {
+            padding: 16px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .popover-arrow {
+            position: absolute;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .popover-arrow::before {
+            content: '';
+            position: absolute;
+            right: -9px;
+            top: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent #e5e7eb transparent transparent;
+        }
+
+        /* BOTÓN DE CERRAR PARA LA VERSIÓN CLICK */
+        .close-label {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-label:hover {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* ANIMACIONES */
+        @keyframes popoverSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50%) translateX(-10px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0) scale(1);
+            }
+        }
+
+        .hover-container:hover .hover-popover {
+            animation: popoverSlideIn 0.3s ease;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hover-popover,
+            .click-popover {
+                left: auto;
+                right: 0;
+                top: calc(100% + 12px);
+                transform: none;
+                width: 260px;
+            }
+
+            .hover-container:hover .hover-popover {
+                transform: none;
+            }
+
+            .popover-toggle:checked + .click-button + .click-popover {
+                transform: none;
+            }
+
+            .popover-arrow {
+                right: 20px;
+                top: -8px;
+                left: auto;
+                transform: rotate(90deg);
+            }
+
+            .popover-arrow::before {
+                right: -8px;
+                top: -9px;
+            }
+        }
+
+        /* OVERLAY PARA CERRAR EN CLICK */
+        .popover-toggle:checked ~ .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: none;
+        }
+
+        .popover-toggle:checked ~ .overlay {
+            display: block;
+        }

@@ -15,7 +15,6 @@ export function tokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
     if(authenticationService.getToken()){
         req = req.clone({
             headers: req.headers.set('Authorization', `Bearer ${authenticationService.getToken()}`)
-
         })
     }
     return next(req)

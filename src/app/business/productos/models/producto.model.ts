@@ -38,5 +38,3 @@ export interface Persona {
   direccion: string;
   email?: string;
 }
-
-

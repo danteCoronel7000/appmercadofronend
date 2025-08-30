@@ -14,6 +14,8 @@ import { Router, RouterLink } from '@angular/router';
 export default class NewCategoria {
   categoriaService = inject(CategoriaService);
   categoriaForm: FormGroup;
+  parentId: number | undefined;
+  parentCategoriasList: Categoria[] = []
   archivoSeleccionado: File | null = null;
   success = false;
   
@@ -26,6 +28,8 @@ export default class NewCategoria {
     nombre: ['', [Validators.required, Validators.maxLength(20)]],
     descripcion: ['', [Validators.required, Validators.maxLength(128)]]
   });
+
+  this.getParentCategorias();
   }
 
 /*  onSubmit(): void{
@@ -76,6 +80,37 @@ export default class NewCategoria {
   } else {
     console.log('No se ha seleccionado ningún archivo');
   }
+}
+
+getParentCategorias(): void{
+  this.categoriaService.getCategoriasPrincipales().subscribe({
+    next: (response) =>{this.parentCategoriasList = response}
+  })
+}
+
+ onParentChange(value: string): void {
+    if (value === '') {
+      this.parentId = undefined;
+    } else {
+      this.parentId = Number(value);
+    }
+  }
+
+createCategoria(): void{
+  const categoria: Categoria = this.categoriaForm.value;
+  this.categoriaService.saveCategoria(categoria, this.archivoSeleccionado || undefined, this.parentId).subscribe({
+     next: (response) => {
+        console.log('Categoría creada con éxito', response);
+        this.mostrarExito();
+        // Esperamos 1 segundo antes de navegar
+        setTimeout(() => {
+          this.router.navigate(['/listar-categorias']);
+        }, 800);
+      },
+      error: (error) => {
+        console.error('Error al crear categoría:', error);
+      }
+  })
 }
 
 

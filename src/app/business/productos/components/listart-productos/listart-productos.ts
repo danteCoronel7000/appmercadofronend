@@ -12,59 +12,110 @@ import { ProductoSocketService } from '../../services/producto-socket.service';
   styleUrl: './listart-productos.css'
 })
 export default class ListartProductos {
-  listProductos: Producto[] = [] ;
-  productosService = inject(ProductoService)
+  listProductos: Producto[] = [];
+  productoSeleccionado?: Producto;
+  productoService = inject(ProductoService);
   productoSocketService = inject(ProductoSocketService);
 
-  constructor(private router: Router){
+  // Variables de paginación
+  currentPage: number = 0;
+  pageSize: number = 5;
+  totalPages: number = 0;
+  totalElements: number = 0;
+  isFirst: boolean = true;
+  isLast: boolean = false;
+
+  // Variables de ordenamiento
+  sortBy: string = 'nombre';
+  sortDir: string = 'asc';
+
+  // Variable para búsqueda
+  searchTerm: string = '';
+
+  constructor(private router: Router) {
     this.getProductos();
     this.getNewProductByWebSocket();
   }
 
-getNewProductByWebSocket(): void {
-  this.productoSocketService.productoActualizado$.subscribe(producto => {
-    console.log('nuevo producto recibido', producto);
+  getNewProductByWebSocket(): void {
+    this.productoSocketService.productoActualizado$.subscribe(producto => {
+      const index = this.listProductos.findIndex(p => p.id === producto.id);
+      if (index !== -1) {
+        this.listProductos[index] = producto;
+      } else {
+        this.listProductos.push(producto);
+      }
+    });
+  }
 
-    const index = this.listProductos.findIndex(p => p.id === producto.id);//recorremos la lista actual de productos comparando si alngun id de la lista actual coincide con el id del nuevo producto creado
+  getProductos(): void {
+    this.productoService.getProductosPaginados(
+      this.currentPage,
+      this.pageSize,
+      this.sortBy,
+      this.sortDir
+    ).subscribe({
+      next: (response) => {
+        this.listProductos = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+        this.isFirst = response.first;
+        this.isLast = response.last;
+        console.log('Página recibida:', response);
+      },
+      error: (err) => console.error('Error al obtener productos', err)
+    });
+  }
 
-    if (index !== -1) {
-      // Ya existe → lo actualizamos
-      this.listProductos[index] = producto;
-    } else {
-      // No existe → lo agregamos al final
-      this.listProductos.push(producto);
+  cambiarPagina(page: number): void {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      this.getProductos();
     }
-  });
+  }
+
+ cambiarPageSize(event: Event): void {
+  const target = event.target as HTMLSelectElement;
+  if (target) {
+    this.pageSize = parseInt(target.value);
+    this.currentPage = 0;
+    this.getProductos();
+  }
 }
 
-
-   getProductos(): void{
-    this.productosService.getProductos().subscribe({
-      next: (response) => {this.listProductos = response, console.log('lista de productos ', response)}
-      }
-    )
+  obtenerIdProducto(id: number): void {
+    this.productoService.setIdProducto(id);
+    this.router.navigate(['/editar-productos']);
   }
 
-  obtenerIdProducto(id: number):void{
-    this.productosService.setIdProducto(id);
-    this.router.navigate(['/editar-productos'])
-  }
-//metodo para mandar el nombre del producto y id al servicio
-  protected getIdAndName(id: number, nombre: string){
-    this.productosService.setIdProducto(id);
-    this.productosService.setNameProducto(nombre);
+  protected getIdAndName(id: number, nombre: string) {
+    this.productoService.setIdProducto(id);
+    this.productoService.setNameProducto(nombre);
   }
 
   buscarPorNombre(nombre: string): void {
     const value = nombre.trim();
     if (value) {
-      this.productosService.buscarProducto(value).subscribe({
+      this.productoService.buscarProducto(value).subscribe({
         next: (categorias) => this.listProductos = categorias,
         error: (err) => console.log('error al buscar', err)
       });
     } else {
       this.getProductos();
     }
-      
+  }   
+  
+
+verDetalles(producto: Producto) {
+  this.productoSeleccionado = producto;
+}
+
+cerrarModal() {
+  this.productoSeleccionado = undefined;
+}
+
+  // Función trackBy para optimizar el rendimiento de *ngFor
+  trackByFn(index: number, item: Producto): number {
+    return item.id;
   }
 }
