@@ -1,3 +1,22 @@
+export interface ProductoDTOForWeb {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  precio: number;          // Float -> number
+  perecedero: boolean;     // Boolean -> boolean
+  unidadMedida: string;
+  medida: string;
+  presentacion: string;
+  stockActual: number;     // Integer -> number
+  stockMin: number;
+  fechaVencimiento: string | Date; // Date en backend: usa ISO string o Date en front
+  popularidad: number;
+  etiquetas: string;
+  categoriaNombre: string;
+  idCategoria: string;
+  imageUrl: string;
+}
+
 
 export interface Producto {
   id: number;

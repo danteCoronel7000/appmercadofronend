@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Producto } from '../../models/producto.model';
+import { Producto, ProductoDTOForWeb } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,8 +12,8 @@ import { ProductoSocketService } from '../../services/producto-socket.service';
   styleUrl: './listart-productos.css'
 })
 export default class ListartProductos {
-  listProductos: Producto[] = [];
-  productoSeleccionado?: Producto;
+  listProductos: ProductoDTOForWeb[] = [];
+  productoSeleccionado?: ProductoDTOForWeb;
   productoService = inject(ProductoService);
   productoSocketService = inject(ProductoSocketService);
 
@@ -37,6 +37,7 @@ export default class ListartProductos {
     this.getNewProductByWebSocket();
   }
 
+  //verificar backen por que cambiamos para que reciba ProductoDTOForWeb
   getNewProductByWebSocket(): void {
     this.productoSocketService.productoActualizado$.subscribe(producto => {
       const index = this.listProductos.findIndex(p => p.id === producto.id);
@@ -44,6 +45,7 @@ export default class ListartProductos {
         this.listProductos[index] = producto;
       } else {
         this.listProductos.push(producto);
+        this.totalElements += 1;
       }
     });
   }
@@ -93,6 +95,7 @@ export default class ListartProductos {
     this.productoService.setNameProducto(nombre);
   }
 
+  //verificar backen por que cambiamos para que reciba ProductoDTOForWeb
   buscarPorNombre(nombre: string): void {
     const value = nombre.trim();
     if (value) {
@@ -106,7 +109,7 @@ export default class ListartProductos {
   }   
   
 
-verDetalles(producto: Producto) {
+verDetalles(producto: ProductoDTOForWeb) {
   this.productoSeleccionado = producto;
 }
 

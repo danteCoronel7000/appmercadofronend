@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Producto } from '../models/producto.model';
+import { Producto, ProductoDTOForWeb } from '../models/producto.model';
 import { PageableResponse } from '../../../shared/models/shared.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
-  private urlSaveProducto: string = 'http://localhost:8080/api/productos/save';
+  
   private url: string = 'http://localhost:8080/api/productos';
   private url_publica: string = 'http://localhost:8080/api/productos/get';
 
@@ -29,8 +29,8 @@ export class ProductoService {
   }
 
     // Método para crear persona
-  createProducto(formData: FormData): Observable<Producto> {
-    return this.httpClient.post<Producto>(this.urlSaveProducto, formData);
+  createProducto(formData: FormData): Observable<ProductoDTOForWeb> {
+    return this.httpClient.post<ProductoDTOForWeb>(`${this.url}/save/return/ws`, formData);
   }
 
   getProductos(): Observable<Producto[]> {
@@ -49,9 +49,9 @@ export class ProductoService {
     return this.httpClient.delete<Producto>(`${this.url}/${id}`);
   }
 
-  buscarProducto(nombre: string): Observable<Producto[]> {
+  buscarProducto(nombre: string): Observable<ProductoDTOForWeb[]> {
     const params = new HttpParams().set('nombre', nombre);
-    return this.httpClient.get<Producto[]>(`${this.url_publica}/buscar`, { params });
+    return this.httpClient.get<ProductoDTOForWeb[]>(`${this.url_publica}/buscar`, { params });
   }
 
    // Método para obtener productos paginados
@@ -60,7 +60,7 @@ export class ProductoService {
     size: number = 5,
     sortBy: string = 'nombre',
     sortDir: string = 'asc'
-  ): Observable<PageableResponse<Producto>> {
+  ): Observable<PageableResponse<ProductoDTOForWeb>> {
     
     let params = new HttpParams()
       .set('page', page.toString())
@@ -68,7 +68,7 @@ export class ProductoService {
       .set('sortBy', sortBy)
       .set('sortDir', sortDir);
 
-    return this.httpClient.get<PageableResponse<Producto>>(`${this.url_publica}/paginado`, { params });
+    return this.httpClient.get<PageableResponse<ProductoDTOForWeb>>(`${this.url_publica}/paginado`, { params });
   }
 
   // Método para buscar productos por nombre con paginación

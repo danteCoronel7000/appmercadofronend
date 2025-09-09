@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import SockJS from 'sockjs-client/dist/sockjs';
 import { Client, IMessage, Stomp } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
-import { Producto } from '../models/producto.model';
+import { Producto, ProductoDTOForWeb } from '../models/producto.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductoSocketService {
   private client: Client;
-  public productoActualizado$: Subject<Producto> = new Subject();
+  public productoActualizado$: Subject<ProductoDTOForWeb> = new Subject();
 
   constructor() {
     this.client = new Client({

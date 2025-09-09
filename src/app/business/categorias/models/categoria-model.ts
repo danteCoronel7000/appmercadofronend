@@ -7,6 +7,11 @@ export interface Categoria{
     image?: Image
 }
 
+export interface CategoriaDtoForSelect{
+  id: number;
+  nombre: string;
+}
+
 export interface CategoriaUpdate{
     id: number;
     nombre: string;

@@ -31,7 +31,6 @@ export default class NewProducto {
       descripcion: [''],
       precio: [null, [Validators.required, Validators.min(0)]],
       perecedero: [false],
-      unidadMedida: ['', Validators.required],
       categoria: ['', Validators.required]
     })
   }
@@ -49,6 +48,7 @@ export default class NewProducto {
       return;
     }
 
+    //enviamos Con la interfaz Producto por que en el backend recibe ProductoEntity
     const producto: Producto = {
       ...this.productoForm.value,
       categoria: { id: +this.productoForm.value.categoria }  // 👈 arreglamos esto
