@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Categoria } from '../../models/categoria-model';
 import { CategoriaService } from '../../services/categoria.service';
+import { CategoriaDtoWeb } from '../../models/categoriaDto.model';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { CategoriaService } from '../../services/categoria.service';
 })
 export default class CategoriasList {
   listCategorys: Categoria[] = [];
+  listCategorysDto: CategoriaDtoWeb[] = [];
   categoriasService = inject(CategoriaService);
   // Variables de paginación
   currentPage: number = 0;
@@ -30,7 +32,7 @@ export default class CategoriasList {
 
 
   constructor(private router: Router){
-    this.getCategorys();
+    this.getCategorysDto();
   }
 
   /*
@@ -78,6 +80,26 @@ export default class CategoriasList {
         this.totalElements = response.totalElements;
         this.isFirst = response.first;
         this.isLast = response.last;
+        console.log('Página recibida dto:', response);
+      },
+      error: (err) => console.error('Error al obtener productos', err)
+    });
+  }
+
+  //obtener lista de categorias pero con dto
+    getCategorysDto(): void {
+    this.categoriasService.getCategoriasPaginadosDto(
+      this.currentPage,
+      this.pageSize,
+      this.sortBy,
+      this.sortDir
+    ).subscribe({
+      next: (response) => {
+        this.listCategorysDto = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+        this.isFirst = response.first;
+        this.isLast = response.last;
         console.log('Página recibida:', response);
       },
       error: (err) => console.error('Error al obtener productos', err)
@@ -87,7 +109,8 @@ export default class CategoriasList {
     cambiarPagina(page: number): void {
     if (page >= 0 && page < this.totalPages) {
       this.currentPage = page;
-      this.getCategorys();
+      this.getCategorysDto();
+      //    this.getCategorys();
     }
   }
 
@@ -96,7 +119,8 @@ export default class CategoriasList {
   if (target) {
     this.pageSize = parseInt(target.value);
     this.currentPage = 0;
-    this.getCategorys();
+    this.getCategorysDto();
+//    this.getCategorys();
   }
 }
 

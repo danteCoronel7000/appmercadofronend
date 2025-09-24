@@ -5,11 +5,12 @@ import { CATEGORIAS_ROUTES } from './business/categorias/routes/categorias.route
 import { PRODUCTOS_ROUTES } from './business/productos/routes/productos.routes';
 import { PEDIDOS_ROUTES } from './business/pedidos/routes/pedidos.routes';
 import { REPORTES_ROUTES } from './business/reportes/routes/reportes.routes';
+import { DASHBOARD_ROUTES } from './business/dashboard/routes/dashboard.routes';
 
 export const routes: Routes = [
      {
         path: '',
-        redirectTo: 'loading',
+        redirectTo: 'metricas',
         pathMatch: 'full'
       },
       {
@@ -17,15 +18,31 @@ export const routes: Routes = [
         loadComponent: () => import('./shared/components/layout/layout'),
         children: [
           {
+            path: 'metricas',
+            loadComponent: () => import('./business/dashboard/components/metricas/metricas'),
+            canActivate: [areYouLoggedInGuard]
+          },
+          {
             path: 'loading',
             loadComponent: () => import('./business/home/components/loading/loading'),
+            canActivate: [areYouLoggedInGuard]
+          },
+          {
+            path: 'lightweight',
+            loadComponent: () => import('./business/dashboard/components/lightweight-charts/lightweight-charts'),
+            canActivate: [areYouLoggedInGuard]
+          },
+          {
+            path: 'carcards',
+            loadComponent: () => import('./business/pedidos/components/cards/cards'),
             canActivate: [areYouLoggedInGuard]
           },
        
           ...CATEGORIAS_ROUTES,
           ...PRODUCTOS_ROUTES,
           ...PEDIDOS_ROUTES,
-          ...REPORTES_ROUTES
+          ...REPORTES_ROUTES,
+          ...DASHBOARD_ROUTES
           
         ]
       },
@@ -36,6 +53,6 @@ export const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'loading'
+        redirectTo: 'metricas'
       }
 ];

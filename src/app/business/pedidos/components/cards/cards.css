@@ -1,0 +1,32 @@
+/* car-card.component.css - ACTUALIZADO */
+
+/* Animaciones personalizadas */
+.card-hover {
+  transition: all 0.3s ease;
+}
+.cancel-btn {
+  @apply flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-full cursor-pointer transition-all duration-200;
+  width: 40px;   /* igual al tamaño visual del dropdown */
+  height: 40px;  /* cuadrado = círculo perfecto */
+  overflow: hidden;
+  padding: 0;    /* quita padding que descentraba el svg */
+}
+
+.cancel-btn:hover {
+  width: 120px;   /* se expande horizontalmente */
+  justify-content: flex-start; /* al expandir, svg queda a la izq */
+  padding-left: 8px;
+  padding-right: 12px;
+}
+
+.cancel-text {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+  margin-left: 6px; /* separa texto del svg */
+}
+
+.cancel-btn:hover .cancel-text {
+  opacity: 1;
+  transform: translateX(0);
+}

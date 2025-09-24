@@ -3,6 +3,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { Categoria, CategoriaUpdate } from '../models/categoria-model';
 import { Observable } from 'rxjs';
 import { PageableResponse } from '../../../shared/models/shared.model';
+import { CategoriaDtoWeb } from '../models/categoriaDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -155,6 +156,23 @@ export class CategoriaService {
         .set('sortDir', sortDir);
   
       return this.httpClient.get<PageableResponse<Categoria>>(`${this.url_publica}/paginado`, { params });
+    }
+
+    // Método para obtener productos paginados con dto
+    getCategoriasPaginadosDto(
+      page: number = 0,
+      size: number = 5,
+      sortBy: string = 'nombre',
+      sortDir: string = 'asc'
+    ): Observable<PageableResponse<CategoriaDtoWeb>> {
+      
+      let params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString())
+        .set('sortBy', sortBy)
+        .set('sortDir', sortDir);
+  
+      return this.httpClient.get<PageableResponse<CategoriaDtoWeb>>(`${this.url_publica}/paginado/dto`, { params });
     }
   
     // Método para buscar productos por nombre con paginación

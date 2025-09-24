@@ -55,6 +55,56 @@
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
       <ul
         class="flex flex-col font-medium md:p-0 mt-4 border border-gray-100 rounded-lg bg-amber-300 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        
+        <!-- Popover (módulo Dashboard) -->
+        <li routerLinkActive [routerLinkActiveOptions]="{ exact: false }" #rlaDashboard="routerLinkActive"
+          class="relative">
+          <a [ngClass]="rlaDashboard.isActive
+    ? 'text-blue-700 bg-gray-100 dark:text-blue-400 dark:bg-gray-700 font-semibold'
+    : 'text-gray-900 dark:text-white'"
+            class="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:md:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+
+            <button data-popover-target="popover-description-dashboard" data-popover-placement="bottom-end"
+              type="button">
+              Dashboard <span class="sr-only">Show information</span>
+            </button>
+          </a>
+
+          <!-- Contenedor Popover -->
+          <div data-popover id="popover-description-dashboard" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 
+           bg-white border border-gray-200 rounded-lg shadow-xs opacity-0 w-72 
+           dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+
+            <div class="p-3 space-y-2">
+              <div class="w-full text-gray-900 bg-white border border-gray-200 rounded-lg 
+               dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                <!-- Submenú Visualizar -->
+                <button [routerLink]="['/metricas']" class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium 
+                 border-b border-gray-200 rounded-t-lg
+                 hover:bg-gray-100 hover:text-blue-700 
+                 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700
+                 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white 
+                 dark:focus:ring-gray-500 dark:focus:text-white">
+                  Metricas
+                </button>
+
+                <!-- Submenú Administrar -->
+                <button [routerLink]="['/dashboard/administrar']" class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium 
+                 border-b border-gray-200 
+                 hover:bg-gray-100 hover:text-blue-700 
+                 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700
+                 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white 
+                 dark:focus:ring-gray-500 dark:focus:text-white">
+                  Administrar
+                </button>
+              </div>
+            </div>
+
+            <div data-popper-arrow></div>
+          </div>
+        </li>
+
         <!--Popover 0 modulo home-->
         <li>
           <a
@@ -69,7 +119,7 @@
                 class="w-full text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 <button type="button"
                   class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
-                  Profile
+                  Dashboard
                 </button>
                 <button type="button"
                   class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
@@ -108,7 +158,7 @@
                   class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                   Lista de Pedidos
                 </button>
-                <button type="button"
+                <button [routerLink]="'/carcards'" type="button"
                   class="relative inline-flex items-center w-full px-4 py-2 text-sm font-medium border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
                   Settings
                 </button>
@@ -146,7 +196,7 @@
           <a [ngClass]="rla3.isActive
       ? 'text-blue-700 bg-gray-100 dark:text-blue-400 dark:bg-gray-700 font-semibold'
       : 'text-gray-900 dark:text-white'"
-                class="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+            class="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
             <button data-popover-target="popover-productos" data-popover-placement="bottom-end" type="button">
               Modulo Productos<span class="sr-only">Show information</span>
             </button>
