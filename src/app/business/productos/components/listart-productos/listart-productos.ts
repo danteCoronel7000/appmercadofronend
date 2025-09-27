@@ -19,7 +19,7 @@ export default class ListartProductos {
 
   // Variables de paginación
   currentPage: number = 0;
-  pageSize: number = 5;
+  pageSize: number = 12;
   totalPages: number = 0;
   totalElements: number = 0;
   isFirst: boolean = true;

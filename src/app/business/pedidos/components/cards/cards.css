@@ -5,7 +5,6 @@
   transition: all 0.3s ease;
 }
 .cancel-btn {
-  @apply flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-full cursor-pointer transition-all duration-200;
   width: 40px;   /* igual al tamaño visual del dropdown */
   height: 40px;  /* cuadrado = círculo perfecto */
   overflow: hidden;

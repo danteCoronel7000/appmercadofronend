@@ -3,14 +3,12 @@
   <app-navbar class="sticky top-0 z-50"></app-navbar>
   
   <!-- Main content wrapper -->
-  <div class="flex grow flex-col overflow-hidden bg-card">
+  <div class="flex grow flex-col overflow-hidden bg-transparent dark:bg-gray-800">
     <!-- Main content -->
     <div
       id="main-content"
-      class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted">
-      <div class="mx-auto px-4 py-4 sm:px-8 lg:container">
+      class="scrollbar-thumb-rounded scrollbar-track-rounded grow overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted w-full h-full">
         <router-outlet></router-outlet>
-      </div>
     </div>
 
     <!-- Footer -->
