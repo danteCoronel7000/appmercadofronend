@@ -6,6 +6,7 @@ import { PRODUCTOS_ROUTES } from './business/productos/routes/productos.routes';
 import { PEDIDOS_ROUTES } from './business/pedidos/routes/pedidos.routes';
 import { REPORTES_ROUTES } from './business/reportes/routes/reportes.routes';
 import { DASHBOARD_ROUTES } from './business/dashboard/routes/dashboard.routes';
+import { CLIENTES_ROUTES } from './business/clientes/routes/clientes.routes';
 
 export const routes: Routes = [
      {
@@ -42,7 +43,8 @@ export const routes: Routes = [
           ...PRODUCTOS_ROUTES,
           ...PEDIDOS_ROUTES,
           ...REPORTES_ROUTES,
-          ...DASHBOARD_ROUTES
+          ...DASHBOARD_ROUTES,
+          ...CLIENTES_ROUTES
           
         ]
       },
