@@ -1,0 +1,54 @@
+<div class="w-full max-w-4xl mx-auto mt-8 p-4 bg-white shadow-lg rounded-2xl">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Gestión de Personas</h2>
+
+  <!-- Tabs -->
+  <div class="flex border-b border-gray-300 mb-6">
+    <button
+      class="flex-1 py-2 text-center font-semibold transition-all duration-200"
+      [ngClass]="{
+        'text-blue-600 border-b-4 border-blue-600 bg-blue-50': selectedTab === 'cliente',
+        'text-gray-600 hover:text-blue-500': selectedTab !== 'cliente'
+      }"
+      (click)="selectedTab = 'cliente'"
+    >
+      Cliente
+    </button>
+
+    <button
+      class="flex-1 py-2 text-center font-semibold transition-all duration-200"
+      [ngClass]="{
+        'text-blue-600 border-b-4 border-blue-600 bg-blue-50': selectedTab === 'usuario',
+        'text-gray-600 hover:text-blue-500': selectedTab !== 'usuario'
+      }"
+      (click)="selectedTab = 'usuario'"
+    >
+      Usuario
+    </button>
+
+    <button
+      class="flex-1 py-2 text-center font-semibold transition-all duration-200"
+      [ngClass]="{
+        'text-blue-600 border-b-4 border-blue-600 bg-blue-50': selectedTab === 'proveedor',
+        'text-gray-600 hover:text-blue-500': selectedTab !== 'proveedor'
+      }"
+      (click)="selectedTab = 'proveedor'"
+    >
+      Proveedor
+    </button>
+  </div>
+
+  <!-- Contenido de cada pestaña -->
+  <div class="p-6 bg-gray-50 rounded-xl shadow-inner">
+    <div *ngIf="selectedTab === 'cliente'">
+      <p class="text-gray-700 text-lg">Estoy en la pestaña <strong>Cliente chatGpt</strong></p>
+    </div>
+
+    <div *ngIf="selectedTab === 'usuario'">
+      <p class="text-gray-700 text-lg">Estoy en la pestaña <strong>Usuario</strong></p>
+    </div>
+
+    <div *ngIf="selectedTab === 'proveedor'">
+      <p class="text-gray-700 text-lg">Estoy en la pestaña <strong>Proveedor</strong></p>
+    </div>
+  </div>
+</div>

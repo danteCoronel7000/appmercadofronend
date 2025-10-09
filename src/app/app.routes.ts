@@ -7,6 +7,8 @@ import { PEDIDOS_ROUTES } from './business/pedidos/routes/pedidos.routes';
 import { REPORTES_ROUTES } from './business/reportes/routes/reportes.routes';
 import { DASHBOARD_ROUTES } from './business/dashboard/routes/dashboard.routes';
 import { CLIENTES_ROUTES } from './business/clientes/routes/clientes.routes';
+import { PROVEEDOR_ROUTES } from './business/proveedor/routes/proveedor.route';
+import { USUARIO_ROUTES } from './core/components/usuarios/routes/usuario.route';
 
 export const routes: Routes = [
      {
@@ -44,7 +46,9 @@ export const routes: Routes = [
           ...PEDIDOS_ROUTES,
           ...REPORTES_ROUTES,
           ...DASHBOARD_ROUTES,
-          ...CLIENTES_ROUTES
+          ...CLIENTES_ROUTES,
+          ...PROVEEDOR_ROUTES,
+          ...USUARIO_ROUTES
           
         ]
       },
