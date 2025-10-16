@@ -30,6 +30,7 @@ export interface Image {
 
 export interface UsuarioDTOForWeb{
   id: number;
+  idPer: number;
   estado: string;
   fechaRegistro: string;
   sueldoBase: string;
@@ -41,5 +42,5 @@ export interface UsuarioDTOForWeb{
   telefono: string;
   estadoCivil: string;
   nacionalidad: string;
-  imagenUrl: string;
+  imageUrl: string;
 }

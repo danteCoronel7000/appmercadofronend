@@ -10,7 +10,17 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.css'
 })
 export class Navbar {
-constructor(private authService: Authentication){}
+
+  nombre: string | null
+  apellido: string | null
+  imageUrl: string | null
+constructor(private authService: Authentication){
+  
+    this.nombre = authService.getNombre();
+    this.apellido = authService.getApellido();
+    this.imageUrl = authService.getImageUrl();
+  
+}
 
 logout(): void{
   this.authService.logout();

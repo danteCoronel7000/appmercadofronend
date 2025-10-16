@@ -32,6 +32,7 @@ loginForm: FormGroup;
 
     this.authService.login(user, pass).subscribe({
       next: (response) => {
+        console.log('respuesta al loguearse: ',response)
         const token = response.token;
         const payload = JSON.parse(atob(token.split('.')[1]));
         const role = payload.role;

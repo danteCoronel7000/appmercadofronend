@@ -15,18 +15,49 @@ export class Authentication {
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  login(user: string, password: string): Observable<any>{
-    return this.httpClient.post<any>(this.LOGIN_URL, {user, password}).pipe(
-      tap(response => {
-        if(response.token){
-          console.log(response.token);
-          this.setToken(response.token);
-          this.setRefreshToken(response.refreshToken)
-          this.autoRefreshToken();
-        }
-      })
-    )
-  }
+login(user: string, password: string): Observable<any> {
+  return this.httpClient.post<any>(this.LOGIN_URL, { user, password }).pipe(
+    tap(response => {
+      if (response.token) {
+        console.log(response.token);
+        this.setToken(response.token);
+        this.setRefreshToken(response.refreshToken);
+
+        // Nuevos: guardar datos del usuario
+        this.setNombre(response.nombre);
+        this.setApellido(response.apellido);
+        this.setImageUrl(response.imageUrl);
+
+        this.autoRefreshToken();
+      }
+    })
+  );
+}
+
+private setNombre(nombre: string): void {
+  localStorage.setItem('nombre', nombre);
+}
+
+private setApellido(apellido: string): void {
+  localStorage.setItem('apellido', apellido);
+}
+
+private setImageUrl(imageUrl: string): void {
+  localStorage.setItem('imageUrl', imageUrl);
+}
+
+getNombre(): string | null {
+  return localStorage.getItem('nombre');
+}
+
+getApellido(): string | null {
+  return localStorage.getItem('apellido');
+}
+
+getImageUrl(): string | null {
+  return localStorage.getItem('imageUrl');
+}
+
 
   private setToken(token: string): void {
     localStorage.setItem(this.tokenKey, token);
@@ -96,6 +127,9 @@ export class Authentication {
   logout(): void{
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshTokenKey);
+    localStorage.removeItem('nombre')
+    localStorage.removeItem('apellido')
+    localStorage.removeItem('imageUrl')
     this.router.navigate(['/sing-in']);
   }
 }

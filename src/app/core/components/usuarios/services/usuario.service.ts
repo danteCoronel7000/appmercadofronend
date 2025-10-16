@@ -15,6 +15,9 @@ private url_publica: string = 'http://localhost:8080/api/usuarios/get';
 #idUsuario = signal<number>(0);
 idUsuario = computed(() => this.#idUsuario());
 
+#idPersona = signal<number>(0);
+idPersona = computed(() => this.#idPersona());
+
 #nameUsuario = signal<string>('');
 nameUsuario = computed(() => this.#nameUsuario());
 
@@ -22,6 +25,10 @@ constructor(private httpClient: HttpClient) { }
 
 public setIdUsuario(value: number): void {
   this.#idUsuario.set(value);
+}
+
+public setIdPersona(value: number): void{
+  this.#idPersona.set(value);
 }
 
 public setNameUsuario(value: string): void {
@@ -54,6 +61,10 @@ buscarUsuario(nombre: string): Observable<UsuarioDTOForWeb[]> {
   return this.httpClient.get<UsuarioDTOForWeb[]>(`${this.url_publica}/buscar`, { params });
 }
 
+ crearUsuario(usuario: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.url}/add/user`, usuario);
+  }
+
 // Método para obtener usuarios paginados
 getUsuariosPaginados(
   page: number = 0,
@@ -68,7 +79,7 @@ getUsuariosPaginados(
     .set('sortBy', sortBy)
     .set('sortDir', sortDir);
 
-  return this.httpClient.get<PageableResponse<UsuarioDTOForWeb>>(`${this.url_publica}/paginado`, { params });
+  return this.httpClient.get<PageableResponse<UsuarioDTOForWeb>>(`${this.url_publica}/paginado/usuarios`, { params });
 }
 
 // Método para buscar usuarios por nombre con paginación
