@@ -2,7 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { PageableResponse } from '../../../../shared/models/shared.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Usuario, UsuarioDTOForWeb } from '../models/usuarios.model';
+import { Usuario, UsuarioDTOForWeb, UsuarioPayload } from '../models/usuarios.model';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +61,7 @@ buscarUsuario(nombre: string): Observable<UsuarioDTOForWeb[]> {
   return this.httpClient.get<UsuarioDTOForWeb[]>(`${this.url_publica}/buscar`, { params });
 }
 
- crearUsuario(usuario: any): Observable<any> {
+ crearUsuario(usuario: UsuarioPayload): Observable<Usuario> {
     return this.httpClient.post<any>(`${this.url}/add/user`, usuario);
   }
 

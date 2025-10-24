@@ -3,6 +3,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Producto, ProductoDTOForWeb } from '../models/producto.model';
 import { PageableResponse } from '../../../shared/models/shared.model';
+import { ProductoDtoCompras } from '../../compras/models/compras.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class ProductoService {
   
   private url: string = 'http://localhost:8080/api/productos';
   private url_publica: string = 'http://localhost:8080/api/productos/get';
+  private url_publicaUno: string = 'http://localhost:8080/api/productos';
 
     #idProducto = signal<number>(0);
   idProducto = computed(() => this.#idProducto())
@@ -37,12 +39,20 @@ export class ProductoService {
     return this.httpClient.get<Producto[]>(`${this.url_publica}/all`);
   }
 
+  getProductoByIdDto(id: number): Observable<ProductoDtoCompras>{
+    return this.httpClient.get<ProductoDtoCompras>(`${this.url_publica}/producto/id/compras`)
+  }
+
   updateProducto(formData: FormData): Observable<Producto> {
     return this.httpClient.put<Producto>(`${this.url}/update`, formData);
   }
 
   getProductoById(id: number): Observable<Producto> {
     return this.httpClient.get<Producto>(`${this.url_publica}/${id}`);
+  }
+
+  getProductoByIdForCompraDto(id: number): Observable<Producto> {
+    return this.httpClient.get<Producto>(`${this.url_publicaUno}/producto/id/compras/${id}`);
   }
 
   deleteProducto(id: number): Observable<Producto> {

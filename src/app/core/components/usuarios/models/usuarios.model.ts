@@ -11,6 +11,13 @@ export interface Persona {
   ncarnet: string;
 }
 
+export interface UsuarioPayload {
+  id: number;
+  name: string;
+  password: string;
+}
+
+
 
 
 export interface Usuario {

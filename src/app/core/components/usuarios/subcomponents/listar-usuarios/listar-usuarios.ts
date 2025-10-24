@@ -73,8 +73,9 @@ obtenerIdUsuario(id: number): void {
   this.usuarioService.setIdUsuario(id);
   this.router.navigate(['/editar-usuarios']);
 }
-obtenerIdPersona(id: number): void {
-  this.usuarioService.setIdPersona(id);
+obtenerIdPersonaYIdUser(idP: number, idU: number): void {
+  this.usuarioService.setIdPersona(idP);
+  this.usuarioService.setIdUsuario(idU);
   this.router.navigate(['/add-user']);
 }
 

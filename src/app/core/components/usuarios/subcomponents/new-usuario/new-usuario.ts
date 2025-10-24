@@ -25,7 +25,7 @@ constructor(private fb: FormBuilder, private router: Router) {
   this.usuarioForm = this.fb.group({
     id: [null],
     estado: ['activo', Validators.required],
-    role: ['', Validators.required],
+    role: [''],
     fechaRegistro: [new Date(), Validators.required],
     sueldoBase: ['', Validators.required],
     persona: this.fb.group({
@@ -36,7 +36,7 @@ constructor(private fb: FormBuilder, private router: Router) {
     estadoCivil: ['', Validators.required],
     nacionalidad: ['', Validators.required],
     direccion: ['', Validators.required],
-    correoElectronico: ['', Validators.required],
+    gmail: ['', Validators.required],
     documentoIdentidad: ['', Validators.required],
     telefono: [null, [Validators.required, Validators.min(0)]],
       })

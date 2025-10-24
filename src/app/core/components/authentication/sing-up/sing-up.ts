@@ -21,25 +21,18 @@ export default class SingUp {
     this.userForm = this.fb.group({
       user: ['', Validators.required],
       passwd: ['', Validators.required],
-      role: ['', Validators.required],
-       persona: this.fb.group({
-        id: [''],
-      })
     });
   }
 
   crearUsuario(): void {
     if (this.userForm.valid) {
       const usuarioPayload = {
+        id: this.userService.idUsuario(),
         name: this.userForm.value.user,
         password: this.userForm.value.passwd,
-        role: this.userForm.value.role,
-        persona: {
-          id: this.userService.idPersona()
-        }
       };
       console.log('usuario a crear:',usuarioPayload)
-/*
+
       this.userService.crearUsuario(usuarioPayload).subscribe({
         next: (response) => {
           console.log('Usuario creado con éxito', response);
@@ -53,7 +46,7 @@ export default class SingUp {
           console.error('Error al crear usuario', err);
           this.success = false;
         }
-      });*/
+      });
     } else {
       console.warn('Formulario inválido, revisa los campos.');
       this.userForm.markAllAsTouched();

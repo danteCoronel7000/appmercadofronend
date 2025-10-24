@@ -1,28 +1,48 @@
- <!-- VERSIÓN 2: POPOVER CON CLICK -->
-    <div>
-        <div class="click-container">
-            <input type="checkbox" id="popover-toggle" class="popover-toggle">
-            <label for="popover-toggle" class="click-button">
-                Click aquí para popover
-            </label>
-            
-            <div class="click-popover">
-                <div class="popover-arrow"></div>
-                <label for="popover-toggle" class="close-label">&times;</label>
-                
-                <div class="popover-header">
-                    <h3 class="popover-title">Popover con Click</h3>
-                </div>
-                
-                <div class="popover-content">
-                    <p>¡Este popover funciona con clicks! Usa un checkbox oculto para mantener el estado. Puedes cerrarlo con la X.</p>
-                    
-                    <p style="margin-top: 12px; font-size: 13px; color: #9ca3af;">
-                        🔧 Implementado con checkbox + :checked
-                    </p>
-                </div>
+<!-- VERSIÓN 2: POPOVER CON CLICK -->
+<div>
+    <div class="click-container">
+        <input type="checkbox" id="popover-toggle" class="popover-toggle">
+        <label for="popover-toggle" class="click-button">
+            Click aquí para popover
+        </label>
+
+        <div class="click-popover">
+            <div class="popover-arrow"></div>
+            <label for="popover-toggle" class="close-label">&times;</label>
+
+            <div class="popover-header">
+                <h3 class="popover-title">Popover con Click</h3>
             </div>
-            
-            <label for="popover-toggle" class="overlay"></label>
+
+            <div class="popover-content">
+                <p>¡Este popover funciona con clicks! Usa un checkbox oculto para mantener el estado. Puedes cerrarlo
+                    con la X.</p>
+
+                <p style="margin-top: 12px; font-size: 13px; color: #9ca3af;">
+                    🔧 Implementado con checkbox + :checked
+                </p>
+            </div>
         </div>
+
+        <label for="popover-toggle" class="overlay"></label>
     </div>
+</div>
+
+<div class="w-full h-full flex bg-gray-200 dark:bg-gray-800">
+    <div class="relative h-80vh shadow-md sm:rounded-lg w-full">
+        <!-- TOP FIXED HEADER (Botón + búsqueda) -->
+        <div class="sticky top-0 z-20 bg-white dark:bg-gray-900 p-4"></div>
+        <!-- SCROLLABLE TABLE -->
+        <div class="overflow-x-auto">
+            <div class="overflow-y-auto relative">
+                <!--grid productos-->
+                <div class="p-4"></div>
+            </div>
+        </div>
+
+        <!-- NAV FIJO AL FONDO -->
+        <nav
+            class="sticky bottom-0 z-10 flex items-center bg-amber-500 px-4 py-3 gap-4 justify-between dark:bg-gray-800">
+        </nav>
+    </div>
+</div>

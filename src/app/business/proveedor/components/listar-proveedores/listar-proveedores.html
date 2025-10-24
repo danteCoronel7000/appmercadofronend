@@ -1,9 +1,9 @@
 <!-- Contenedor principal -->
-<div class="w-full min-h-full flex bg-gray-200 dark:bg-gray-800">
+<div class="w-full h-full flex bg-gray-200 dark:bg-gray-800 overflow-hidden">
     <!-- Contenedor centrado horizontalmente y con margen vertical -->
-    <div class="relative shadow-md sm:rounded-lg w-full">
+    <div class="relative shadow-md sm:rounded-lg w-full h-full flex flex-col">
         <!-- Tabs -->
-        <div class="flex border-b border-gray-300 mb-6">
+        <div class="flex-shrink-0 flex border-b border-gray-300">
             <button class="flex-1 py-2 text-center font-semibold transition-all duration-200" [ngClass]="{
         'text-blue-600 border-b-4 border-blue-600 bg-blue-50': selectedTab === 'persona',
         'text-gray-600 hover:text-blue-500': selectedTab !== 'persona'
@@ -19,9 +19,9 @@
             </button>
         </div>
         <!--persona-->
-        <div *ngIf="selectedTab === 'persona'">
+        <div *ngIf="selectedTab === 'persona'" class="flex-1 flex flex-col min-h-0">
             <!-- TOP FIXED HEADER (Botón + búsqueda) -->
-            <div class="sticky top-0 z-20 bg-white dark:bg-gray-900 p-4">
+            <div class="flex-shrink-0 bg-white dark:bg-gray-900 p-4">
                 <div class="flex items-center justify-between flex-wrap md:flex-row space-y-4 md:space-y-0">
                     <a [routerLink]="['/nuevo-proveedor']"
                         class="text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6] focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6] me-2 mb-2">
@@ -59,150 +59,146 @@
             </div>
 
             <!-- SCROLLABLE TABLE -->
-            <div class="overflow-x-auto">
-                <div class="max-h-[390px] overflow-y-auto relative">
+            <div class="flex-1 min-h-0 overflow-y-auto">
+                <!--grid productos-->
+                <div class="p-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                        @for (proveedor of listProveedoresPer; track $index) {
+                        <div
+                            class="card-hover group bg-white text-gray-800 rounded-xl shadow-lg hover:shadow-2xl relative dark:bg-gray-900 dark:text-white">
 
-                    <!--grid productos-->
-                    <div class="p-4">
+                            <!-- Imagen -->
+                            <div class="relative h-32 overflow-hidden">
+                                <img [src]="proveedor.imageUrl" [alt]="proveedor.nombre"
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                            @for (proveedor of listProveedoresPer; track $index) {
-                            <div
-                                class="card-hover group bg-white text-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl relative dark:bg-gray-900 dark:text-white">
-
-                                <!-- Imagen -->
-                                <div class="relative h-32 overflow-hidden">
-                                    <img [src]="proveedor.imageUrl" [alt]="proveedor.nombre"
-                                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-
-                                    <!-- Botones de acción (aparecen en hover) -->
+                                <!-- Botones de acción (aparecen en hover) -->
+                                <div
+                                    class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <!-- Botón de cancelar CÍRCULO PERFECTO -->
                                     <div
-                                        class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <!-- Botón de cancelar CÍRCULO PERFECTO -->
+                                        class="cancel-btn flex items-center bg-gray-500 backdrop-blur-sm rounded-full px-2 py-1 cursor-pointer hover:bg-red-600/80">
+
+                                        <button (click)="getIdAndName(proveedor.id, proveedor.nombre)"
+                                            [routerLink]="['/delete-proveedor']"
+                                            class="cancel-text text-sm ml-1 whitespace-nowrap text-white">Eliminar</button>
+                                    </div>
+
+                                    <!-- Dropdown menu -->
+                                    <div class="relative group/dropdown z-50">
+                                        <button
+                                            class="bg-gray-500 backdrop-blur-sm rounded-full p-1.5 hover:bg-gray-700/80 transition-colors">
+                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                            </svg>
+                                        </button>
                                         <div
-                                            class="cancel-btn flex items-center bg-gray-500 backdrop-blur-sm rounded-full px-2 py-1 cursor-pointer hover:bg-red-600/80">
-
-                                            <button (click)="getIdAndName(proveedor.id, proveedor.nombre)"
-                                                [routerLink]="['/delete-proveedor']"
-                                                class="cancel-text text-sm ml-1 whitespace-nowrap text-white">Eliminar</button>
+                                            class="absolute right-0 top-full mt-1 w-32 bg-white text-black rounded-md shadow-lg z-50 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200 dark:bg-gray-900 dark:text-amber-100">
+                                            <button (click)="verDetallesPer(proveedor)"
+                                                class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Ver
+                                                Detalles</button>
+                                            <button (click)="obtenerIdProveedor(proveedor.id)"
+                                                class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Editar</button>
                                         </div>
-
-                                        <!-- Dropdown menu -->
-                                        <div class="relative group/dropdown z-50">
-                                            <button
-                                                class="bg-gray-500 backdrop-blur-sm rounded-full p-1.5 hover:bg-gray-700/80 transition-colors">
-                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                                                </svg>
-                                            </button>
-                                            <div
-                                                class="absolute right-0 top-full mt-1 w-32 bg-white text-black rounded-md shadow-lg z-50 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200 dark:bg-gray-900 dark:text-amber-100">
-                                                <button (click)="verDetallesPer(proveedor)"
-                                                    class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Ver
-                                                    Detalles</button>
-                                                <button (click)="obtenerIdProveedor(proveedor.id)"
-                                                    class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Editar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Contenido -->
-                                <div class="p-4 relative z-10">
-                                    <!-- Header con fuente y tiempo -->
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-gray-300 text-sm">{{ proveedor.estado }}</span>
-                                    </div>
-
-                                    <!-- Título -->
-                                    <h2 class="text-sm mb-0 line-clamp-2">{{ proveedor.nombre }}</h2>
-                                    <h6 class="text-sm mb-3 line-clamp-2">{{ proveedor.nacionalidad }} </h6>
-
-                                    <!-- Acciones -->
-                                    <div class="flex items-center gap-4 text-gray-400">
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
-
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
-
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            }
+
+                            <!-- Contenido -->
+                            <div class="p-4 relative z-10">
+                                <!-- Header con fuente y tiempo -->
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-gray-300 text-sm">{{ proveedor.estado }}</span>
+                                </div>
+
+                                <!-- Título -->
+                                <h2 class="text-sm mb-0 line-clamp-2">{{ proveedor.nombre }}</h2>
+                                <h6 class="text-sm mb-3 line-clamp-2">{{ proveedor.nacionalidad }} </h6>
+
+                                <!-- Acciones -->
+                                <div class="flex items-center gap-4 text-gray-400">
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                        }
                     </div>
-
-                    <!-- NAV FIJO AL FONDO -->
-                    <nav class="sticky bottom-0 z-10 flex items-center bg-amber-50 px-4 py-3 gap-4 justify-between dark:bg-gray-800"
-                        aria-label="Table navigation">
-                        <!-- Información de paginación -->
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                            Mostrando
-                            <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ currentPagePer * pageSizePer + 1 }} -
-                                {{ (currentPagePer * pageSizePer + listProveedoresPer.length) }}
-                            </span>
-                            de
-                            <span class="font-semibold text-gray-900 dark:text-white">{{ totalElementsPer }}</span>
-                        </span>
-
-                        <!-- Select -->
-                        <div class="relative">
-                            <select (change)="cambiarPageSizePer($event)"
-                                class="rounded border-gray-300 shadow-sm text-sm px-3 py-1.5 pr-8 min-w-[140px] bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                                <option [value]="12">12 por página</option>
-                                <option [value]="24">24 por página</option>
-                                <option [value]="32">32 por página</option>
-                                <option [value]="50">50 por página</option>
-                                <option [value]="100">100 por página</option>
-                            </select>
-                        </div>
-
-                        <!-- Botones -->
-                        <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                            <li>
-                                <button (click)="cambiarPagina(currentPage - 1, 'persona')" [disabled]="isFirst"
-                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 disabled:opacity-50">
-                                    ← Página anterior
-                                </button>
-                            </li>
-                            <li>
-                                <button (click)="cambiarPagina(currentPage + 1, 'persona')" [disabled]="isLast"
-                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 disabled:opacity-50">
-                                    Siguiente página →
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
+
+            <!-- NAV FIJO AL FONDO -->
+            <nav class="flex-shrink-0 flex items-center bg-amber-50 px-4 py-3 gap-4 justify-between dark:bg-gray-800"
+                aria-label="Table navigation">
+                <!-- Información de paginación -->
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                    Mostrando
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ currentPagePer * pageSizePer + 1 }} -
+                        {{ (currentPagePer * pageSizePer + listProveedoresPer.length) }}
+                    </span>
+                    de
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ totalElementsPer }}</span>
+                </span>
+
+                <!-- Select -->
+                <div class="relative">
+                    <select (change)="cambiarPageSizePer($event)"
+                        class="rounded border-gray-300 shadow-sm text-sm px-3 py-1.5 pr-8 min-w-[140px] bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <option [value]="12">12 por página</option>
+                        <option [value]="24">24 por página</option>
+                        <option [value]="32">32 por página</option>
+                        <option [value]="50">50 por página</option>
+                        <option [value]="100">100 por página</option>
+                    </select>
+                </div>
+
+                <!-- Botones -->
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    <li>
+                        <button (click)="cambiarPagina(currentPage - 1, 'persona')" [disabled]="isFirst"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 disabled:opacity-50">
+                            ← Página anterior
+                        </button>
+                    </li>
+                    <li>
+                        <button (click)="cambiarPagina(currentPage + 1, 'persona')" [disabled]="isLast"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 disabled:opacity-50">
+                            Siguiente página →
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <!--empresa-->
-        <div *ngIf="selectedTab === 'empresa'">
+        <div *ngIf="selectedTab === 'empresa'" class="flex-1 flex flex-col min-h-0">
             <!-- TOP FIXED HEADER (Botón + búsqueda) -->
-            <div class="sticky top-0 z-20 bg-white dark:bg-gray-900 p-4">
+            <div class="flex-shrink-0 bg-white dark:bg-gray-900 p-4">
                 <div class="flex items-center justify-between flex-wrap md:flex-row space-y-4 md:space-y-0">
                     <a [routerLink]="['/nuevo-proveedor']"
                         class="text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6] focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6] me-2 mb-2">
@@ -240,145 +236,141 @@
             </div>
 
             <!-- SCROLLABLE TABLE -->
-            <div class="overflow-x-auto">
-                <div class="max-h-[390px] overflow-y-auto relative">
-
+            <div class="flex-1 min-h-0 overflow-y-auto">
+                <div class="p-4">
                     <!--grid productos-->
-                    <div class="p-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                        @for (proveedor of listProveedoresEmp; track $index) {
+                        <div
+                            class="card-hover group bg-white text-gray-800 rounded-xl shadow-lg hover:shadow-2xl relative dark:bg-gray-900 dark:text-white">
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                            @for (proveedor of listProveedoresEmp; track $index) {
-                            <div
-                                class="card-hover group bg-white text-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl relative dark:bg-gray-900 dark:text-white">
+                            <!-- Imagen -->
+                            <div class="relative h-32 overflow-hidden">
+                                <img [src]="proveedor.imageUrl" [alt]="proveedor.razonSocial"
+                                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
 
-                                <!-- Imagen -->
-                                <div class="relative h-32 overflow-hidden">
-                                    <img [src]="proveedor.imageUrl" [alt]="proveedor.razonSocial"
-                                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-
-                                    <!-- Botones de acción (aparecen en hover) -->
+                                <!-- Botones de acción (aparecen en hover) -->
+                                <div
+                                    class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <!-- Botón de cancelar CÍRCULO PERFECTO -->
                                     <div
-                                        class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        <!-- Botón de cancelar CÍRCULO PERFECTO -->
+                                        class="cancel-btn flex items-center bg-gray-500 backdrop-blur-sm rounded-full px-2 py-1 cursor-pointer hover:bg-red-600/80">
+
+                                        <button (click)="getIdAndName(proveedor.id, proveedor.razonSocial)"
+                                            [routerLink]="['/delete-proveedor']"
+                                            class="cancel-text text-sm ml-1 whitespace-nowrap text-white">Eliminar</button>
+                                    </div>
+
+                                    <!-- Dropdown menu -->
+                                    <div class="relative group/dropdown z-50">
+                                        <button
+                                            class="bg-gray-500 backdrop-blur-sm rounded-full p-1.5 hover:bg-gray-700/80 transition-colors">
+                                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                            </svg>
+                                        </button>
                                         <div
-                                            class="cancel-btn flex items-center bg-gray-500 backdrop-blur-sm rounded-full px-2 py-1 cursor-pointer hover:bg-red-600/80">
-
-                                            <button (click)="getIdAndName(proveedor.id, proveedor.razonSocial)"
-                                                [routerLink]="['/delete-proveedor']"
-                                                class="cancel-text text-sm ml-1 whitespace-nowrap text-white">Eliminar</button>
+                                            class="absolute right-0 top-full mt-1 w-32 bg-white text-black rounded-md shadow-lg z-50 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200 dark:bg-gray-900 dark:text-amber-100">
+                                            <button (click)="verDetallesEmp(proveedor)"
+                                                class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Ver
+                                                Detalles</button>
+                                            <button (click)="obtenerIdProveedor(proveedor.id)"
+                                                class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Editar</button>
                                         </div>
-
-                                        <!-- Dropdown menu -->
-                                        <div class="relative group/dropdown z-50">
-                                            <button
-                                                class="bg-gray-500 backdrop-blur-sm rounded-full p-1.5 hover:bg-gray-700/80 transition-colors">
-                                                <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                                                </svg>
-                                            </button>
-                                            <div
-                                                class="absolute right-0 top-full mt-1 w-32 bg-white text-black rounded-md shadow-lg z-50 opacity-0 invisible group-hover/dropdown:opacity-100 group-hover/dropdown:visible transition-all duration-200 dark:bg-gray-900 dark:text-amber-100">
-                                                <button (click)="verDetallesEmp(proveedor)"
-                                                    class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Ver
-                                                    Detalles</button>
-                                                <button (click)="obtenerIdProveedor(proveedor.id)"
-                                                    class="block px-3 py-1.5 hover:bg-gray-300 w-full text-left text-sm dark:hover:bg-gray-700">Editar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Contenido -->
-                                <div class="p-4 relative z-10">
-                                    <!-- Header con fuente y tiempo -->
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-gray-300 text-sm">{{ proveedor.estado }}</span>
-                                    </div>
-
-                                    <!-- Título -->
-                                    <h2 class="text-sm mb-0 line-clamp-2">{{ proveedor.razonSocial }}</h2>
-                                    <h6 class="text-sm mb-3 line-clamp-2">{{ proveedor.nit }} </h6>
-
-                                    <!-- Acciones -->
-                                    <div class="flex items-center gap-4 text-gray-400">
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
-
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
-
-                                        <button class="flex items-center gap-1 hover:text-white transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
-                                                </path>
-                                            </svg>
-                                            <span class="text-sm">{{ proveedor.id }}</span>
-                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            }
+
+                            <!-- Contenido -->
+                            <div class="p-4 relative z-10">
+                                <!-- Header con fuente y tiempo -->
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-gray-300 text-sm">{{ proveedor.estado }}</span>
+                                </div>
+
+                                <!-- Título -->
+                                <h2 class="text-sm mb-0 line-clamp-2">{{ proveedor.razonSocial }}</h2>
+                                <h6 class="text-sm mb-3 line-clamp-2">{{ proveedor.nit }} </h6>
+
+                                <!-- Acciones -->
+                                <div class="flex items-center gap-4 text-gray-400">
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v2a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+
+                                    <button class="flex items-center gap-1 hover:text-white transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-sm">{{ proveedor.id }}</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                        }
                     </div>
-
-                    <!-- NAV FIJO AL FONDO -->
-                    <nav class="sticky bottom-0 z-10 flex items-center bg-amber-50 px-4 py-3 gap-4 justify-between dark:bg-gray-800"
-                        aria-label="Table navigation">
-                        <!-- Información de paginación -->
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                            Mostrando
-                            <span class="font-semibold text-gray-900 dark:text-white">
-                                {{ currentPage * pageSize + 1 }} -
-                                {{ (currentPage * pageSize + listProveedoresEmp.length) }}
-                            </span>
-                            de
-                            <span class="font-semibold text-gray-900 dark:text-white">{{ totalElements }}</span>
-                        </span>
-
-                        <!-- Select -->
-                        <div class="relative">
-                            <select (change)="cambiarPageSizeEmp($event)"
-                                class="rounded border-gray-300 shadow-sm text-sm px-3 py-1.5 pr-8 min-w-[140px] bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
-                                <option [value]="12">12 por página</option>
-                                <option [value]="24">24 por página</option>
-                                <option [value]="32">32 por página</option>
-                                <option [value]="50">50 por página</option>
-                                <option [value]="100">100 por página</option>
-                            </select>
-                        </div>
-
-                        <!-- Botones -->
-                        <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                            <li>
-                                <button (click)="cambiarPagina(currentPage - 1, 'persona')" [disabled]="isFirst"
-                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 disabled:opacity-50">
-                                    ← Página anterior
-                                </button>
-                            </li>
-                            <li>
-                                <button (click)="cambiarPagina(currentPage + 1, 'persona')" [disabled]="isLast"
-                                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 disabled:opacity-50">
-                                    Siguiente página →
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
+
+            <!-- NAV FIJO AL FONDO -->
+            <nav class="flex-shrink-0 flex items-center bg-amber-50 px-4 py-3 gap-4 justify-between dark:bg-gray-800"
+                aria-label="Table navigation">
+                <!-- Información de paginación -->
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                    Mostrando
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                        {{ currentPage * pageSize + 1 }} -
+                        {{ (currentPage * pageSize + listProveedoresEmp.length) }}
+                    </span>
+                    de
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ totalElements }}</span>
+                </span>
+
+                <!-- Select -->
+                <div class="relative">
+                    <select (change)="cambiarPageSizeEmp($event)"
+                        class="rounded border-gray-300 shadow-sm text-sm px-3 py-1.5 pr-8 min-w-[140px] bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <option [value]="12">12 por página</option>
+                        <option [value]="24">24 por página</option>
+                        <option [value]="32">32 por página</option>
+                        <option [value]="50">50 por página</option>
+                        <option [value]="100">100 por página</option>
+                    </select>
+                </div>
+
+                <!-- Botones -->
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    <li>
+                        <button (click)="cambiarPagina(currentPage - 1, 'persona')" [disabled]="isFirst"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 disabled:opacity-50">
+                            ← Página anterior
+                        </button>
+                    </li>
+                    <li>
+                        <button (click)="cambiarPagina(currentPage + 1, 'persona')" [disabled]="isLast"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 disabled:opacity-50">
+                            Siguiente página →
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

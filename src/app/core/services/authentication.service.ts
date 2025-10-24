@@ -27,6 +27,7 @@ login(user: string, password: string): Observable<any> {
         this.setNombre(response.nombre);
         this.setApellido(response.apellido);
         this.setImageUrl(response.imageUrl);
+        this.setGmail(response.gmail);
 
         this.autoRefreshToken();
       }
@@ -38,6 +39,9 @@ private setNombre(nombre: string): void {
   localStorage.setItem('nombre', nombre);
 }
 
+private setGmail(gmail: string): void{
+  localStorage.setItem('gmail', gmail)
+}
 private setApellido(apellido: string): void {
   localStorage.setItem('apellido', apellido);
 }
@@ -46,16 +50,32 @@ private setImageUrl(imageUrl: string): void {
   localStorage.setItem('imageUrl', imageUrl);
 }
 
+getGmail(): string | null {
+  if (typeof window !== 'undefined' && localStorage) {
+    return localStorage.getItem('gmail');
+  }
+  return null;
+}
+
 getNombre(): string | null {
-  return localStorage.getItem('nombre');
+  if (typeof window !== 'undefined' && localStorage) {
+    return localStorage.getItem('nombre');
+  }
+  return null;
 }
 
 getApellido(): string | null {
-  return localStorage.getItem('apellido');
+  if (typeof window !== 'undefined' && localStorage) {
+    return localStorage.getItem('apellido');
+  }
+  return null;
 }
 
 getImageUrl(): string | null {
-  return localStorage.getItem('imageUrl');
+  if (typeof window !== 'undefined' && localStorage) {
+    return localStorage.getItem('imageUrl');
+  }
+  return null;
 }
 
 

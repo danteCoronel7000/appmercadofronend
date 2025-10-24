@@ -9,6 +9,8 @@ import { DASHBOARD_ROUTES } from './business/dashboard/routes/dashboard.routes';
 import { CLIENTES_ROUTES } from './business/clientes/routes/clientes.routes';
 import { PROVEEDOR_ROUTES } from './business/proveedor/routes/proveedor.route';
 import { USUARIO_ROUTES } from './core/components/usuarios/routes/usuario.route';
+import { COMPRAS_ROUTES } from './business/compras/routes/compras.routes';
+import { VENTAS_ROUTES } from './business/ventas/routes/ventas.routes';
 
 export const routes: Routes = [
      {
@@ -48,7 +50,9 @@ export const routes: Routes = [
           ...DASHBOARD_ROUTES,
           ...CLIENTES_ROUTES,
           ...PROVEEDOR_ROUTES,
-          ...USUARIO_ROUTES
+          ...USUARIO_ROUTES,
+          ...COMPRAS_ROUTES,
+          ...VENTAS_ROUTES
           
         ]
       },
