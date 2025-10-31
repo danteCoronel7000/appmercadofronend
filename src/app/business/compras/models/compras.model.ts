@@ -84,3 +84,47 @@ export interface ProductoDtoCompras {
   stockActual: number;
   stockMin: number;
 }
+
+// Interfaces para el request
+export interface ItemCompraRequest {
+  cantidad: number;
+  precioUnitario: number;
+  descuentoUnitario: number;
+  productoId: number;
+}
+
+export interface OrdenCompraRequest {
+  numeroOrden: number;
+  montoTotal: number;
+  fechaCreacion: string;
+  estado: string;
+  nroFactura: string | null;
+  moneda: string;
+  proveedorId: number;
+  itemsCompra: ItemCompraRequest[];
+}
+
+// Interfaces para el response
+export interface ItemCompraResponse {
+  id: number;
+  cantidad: number;
+  precioUnitario: number;
+  descuentoUnitario: number;
+  subtotalDescuento: number;
+  totalItem: number;
+  productoId: number;
+  productoNombre: string;
+}
+
+export interface OrdenCompraResponse {
+  id: number;
+  numeroOrden: number;
+  fechaOrden: string;
+  total: number;
+  estado: string;
+  moneda: string;
+  nroFactura: string | null;
+  proveedorId: number;
+  proveedorNombre: string;
+  items: ItemCompraResponse[];
+}

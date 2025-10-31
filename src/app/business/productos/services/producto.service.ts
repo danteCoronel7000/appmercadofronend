@@ -61,7 +61,7 @@ export class ProductoService {
 
   buscarProducto(nombre: string): Observable<ProductoDTOForWeb[]> {
     const params = new HttpParams().set('nombre', nombre);
-    return this.httpClient.get<ProductoDTOForWeb[]>(`${this.url_publica}/buscar`, { params });
+    return this.httpClient.get<ProductoDTOForWeb[]>(`${this.url_publica}/buscar/app`, { params });
   }
 
    // Método para obtener productos paginados

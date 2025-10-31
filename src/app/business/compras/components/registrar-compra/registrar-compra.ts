@@ -3,8 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComprasService } from '../../services/compras.service';
 import { ProductoDtoCompras, ProveedorDto } from '../../models/compras.model';
-import { rmSync } from 'node:fs';
 import { ProductoService } from '../../../productos/services/producto.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-compra',
@@ -19,9 +19,9 @@ export default class RegistrarCompra {
   listProductos: ProductoDtoCompras[] = [];
   compraService = inject(ComprasService);
   productoService = inject(ProductoService);
-  precioProducto: number = 0.00;
+  success = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
 
 
     this.compraForm = this.fb.group({
@@ -67,7 +67,7 @@ export default class RegistrarCompra {
     this.compraService.getNumeroOrden().subscribe({
       next: (norden) => {
         this.numeroOrden = norden;
-        this.compraForm.get('numeroOrden')?.setValue(norden);
+        this.compraForm.get('numeroOrden')?.setValue(norden+1);
         console.log("orden", this.numeroOrden);
       }
     });
@@ -221,9 +221,21 @@ export default class RegistrarCompra {
     if (this.compraForm.valid && this.itemsCompra.length > 0) {
       const compraData = this.getFormValue();
       compraData.fechaActualizacion = new Date().toISOString();
-      console.log('Datos de compra:', compraData);
-      // Aquí llamarías a tu servicio para guardar
-      console.log("compra a enviar: ", compraData);
+      //logica para llamar al servicio y consumir el endPoint
+    this.compraService.registrarOrdenCompra(compraData).subscribe({
+        next: (response) => {
+          console.log('Orden de compra registrada exitosamente:', response);
+          
+          // Limpiar el formulario después del éxito
+          this.resetForm();
+
+           this.mostrarExito()
+          // Esperamos 1 segundo antes de navegar
+          setTimeout(() => {
+            this.router.navigate(['/metricas']);
+          }, 800);
+        }
+      });
     } else {
       this.markFormGroupTouched(this.compraForm);
       this.itemsCompra.controls.forEach(item => {
@@ -265,5 +277,18 @@ export default class RegistrarCompra {
     return this.itemsCompra.controls.reduce((sum, item) => {
       return sum + (item.get('subTotal')?.value || 0);
     }, 0);
+  }
+
+  getProductName(productoId: any): string {
+  const producto = this.listProductos.find(p => p.id === productoId);
+  return producto ? producto.nombre : '';
+}
+
+ mostrarExito(): void {
+    this.success = true;
+
+    setTimeout(() => {
+      this.success = false;
+    }, 800); // 2.5 segundos visible
   }
 }

@@ -34,6 +34,7 @@ constructor(private fb: FormBuilder, private router: Router){
       precio: [null, [Validators.required, Validators.min(0)]],
       perecedero: [false],
       unidadMedida: ['', Validators.required],
+      stockMin: ['', Validators.required],
       categoria: ['', Validators.required]
     })
     }
