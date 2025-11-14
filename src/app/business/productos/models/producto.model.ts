@@ -17,6 +17,17 @@ export interface ProductoDTOForWeb {
   idCategoria: string;
   imageUrl: string;
 }
+export interface ProductoUpdate {
+  id: number | null;
+  nombre: string;
+  medida: string;
+  descripcion?: string;
+  precio: number;
+  perecedero: boolean;
+  unidadMedida: string;
+  categoria: number;  // 👈 solo ID
+}
+
 
 
 export interface Producto {

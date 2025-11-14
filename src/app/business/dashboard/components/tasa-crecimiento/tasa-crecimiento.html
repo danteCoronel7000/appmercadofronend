@@ -1,0 +1,38 @@
+<div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 flex flex-col items-center">
+  <h2 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-100">
+    📊 Tasa de Crecimiento Mensual
+  </h2>
+
+  <div class="flex items-center space-x-2 mb-2">
+    <span
+      class="text-3xl font-bold"
+      [ngClass]="getColor()"
+    >
+      {{ tasaCrecimiento | number : '1.2-2' }}%
+    </span>
+    <span
+      class="text-3xl"
+      [ngClass]="getColor()"
+    >
+      {{ getIcon() }}
+    </span>
+  </div>
+
+  <div class="w-full">
+    @if (chartOptions) {
+    <apx-chart
+      [series]="chartOptions.series!"
+      [chart]="chartOptions.chart!"
+      [stroke]="chartOptions.stroke!"
+      [dataLabels]="chartOptions.dataLabels!"
+      [tooltip]="chartOptions.tooltip!"
+      [xaxis]="chartOptions.xaxis!"
+    ></apx-chart>
+    }
+  </div>
+
+  <p class="text-sm text-gray-500 mt-2">
+    Comparación entre ventas de {{ chartOptions?.xaxis?.categories?.slice(-2)[0] }}
+    y {{ chartOptions?.xaxis?.categories?.slice(-1)[0] }}.
+  </p>
+</div>

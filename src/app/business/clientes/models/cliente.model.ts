@@ -31,6 +31,7 @@ export interface Image {
 export interface ClienteDTOForWeb{
   id: number;
   referenciaDireccion: string;
+  tipoCliente: string;
   estado: string;
   nit: string;
   fechaRegistro: string;
@@ -43,6 +44,18 @@ export interface ClienteDTOForWeb{
   telefono: string;
   estadoCivil: string;
   nacionalidad: string;
+  ncarnet: string;
+  imageUrl: string;
+}
+
+export interface ClienteDTOForVenta{
+  id: number;
+  tipoCliente: string;
+  estado: string;
+  nit: string;
+  nombre: string;
+  apellido: string;
+  telefono: string;
   ncarnet: string;
   imageUrl: string;
 }

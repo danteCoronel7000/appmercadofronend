@@ -100,7 +100,7 @@ export default class ListartProductos {
     const value = nombre.trim();
     if (value) {
       this.productoService.buscarProducto(value).subscribe({
-        next: (categorias) => this.listProductos = categorias,
+        next: (producto) => this.listProductos = producto,
         error: (err) => console.log('error al buscar', err)
       });
     } else {

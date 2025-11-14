@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { VentasDash } from "../../../dashboard/components/ventas-dash/ventas-dash";
 
 @Component({
   selector: 'app-dasboard-reportes',
-  imports: [],
+  imports: [VentasDash],
   templateUrl: './dasboard-reportes.html',
   styleUrl: './dasboard-reportes.css'
 })

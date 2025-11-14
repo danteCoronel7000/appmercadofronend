@@ -20,6 +20,7 @@ login(user: string, password: string): Observable<any> {
     tap(response => {
       if (response.token) {
         console.log(response.token);
+        this.setIdUsuario(response.id);
         this.setToken(response.token);
         this.setRefreshToken(response.refreshToken);
 
@@ -46,6 +47,10 @@ private setApellido(apellido: string): void {
   localStorage.setItem('apellido', apellido);
 }
 
+private setIdUsuario(id: string): void {
+  localStorage.setItem('idusuario', id);
+}
+
 private setImageUrl(imageUrl: string): void {
   localStorage.setItem('imageUrl', imageUrl);
 }
@@ -60,6 +65,13 @@ getGmail(): string | null {
 getNombre(): string | null {
   if (typeof window !== 'undefined' && localStorage) {
     return localStorage.getItem('nombre');
+  }
+  return null;
+}
+
+getIdUsuario(): string | null{
+   if (typeof window !== 'undefined' && localStorage) {
+    return localStorage.getItem('idusuario');
   }
   return null;
 }

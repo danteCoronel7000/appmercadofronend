@@ -36,7 +36,7 @@ loginForm: FormGroup;
         const token = response.token;
         const payload = JSON.parse(atob(token.split('.')[1]));
         const role = payload.role;
-        this.router.navigate([role === 'administrador' || role === 'cajero' ? '/loading' : '/sing-in']);
+        this.router.navigate([role === 'administrador' || role === 'cajero' ? '/ventasdash' : '/sing-in']);
       },
       error: (err) => console.error('Login failed', err)
     });

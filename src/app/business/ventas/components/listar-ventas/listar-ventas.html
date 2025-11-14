@@ -1,1 +1,264 @@
-<p>listar-ventas works!</p>
+<div class="min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Órdenes de Venta</h1>
+      <p class="text-gray-600">Gestiona y revisa tus ventas</p>
+    </div>
+
+    <!-- Lista de Órdenes -->
+    <div class="space-y-4">
+      <div *ngFor="let orden of listOrdenesVenta"
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+
+        <!-- Encabezado de la Orden -->
+        <div class="p-4 md:p-6">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <!-- Información Principal -->
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h2 class="text-xl font-semibold text-gray-900">
+                  venta #{{ orden.numeroVenta }}
+                </h2>
+                <span [class]="'px-3 py-1 rounded-full text-xs font-medium ' + getEstadoClass(orden.estado)">
+                  {{ orden.estado }}
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span class="font-medium">cliente:</span>
+                  <span class="ml-1">{{ orden.clienteNombre }} {{orden.clienteApellido}}</span>
+                </div>
+
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span class="font-medium">usuario:</span>
+                  <span class="ml-1">{{ orden.usuarioNombre }} {{orden.usuarioApellido}}</span>
+                </div>
+
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span class="font-medium">Fecha Creación:</span>
+                  <span class="ml-1">{{ orden.fechaCreacion | date:'dd/MM/yyyy' }}</span>
+                </div>
+
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span class="font-medium">Fecha Actualizacion:</span>
+                  <span class="ml-1">{{ orden.fechaActualizacion| date:'dd/MM/yyyy' }}</span>
+                </div>
+
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span class="font-medium">Factura:</span>
+                  <span class="ml-1">{{ orden.nroFactura || 'Sin factura' }}</span>
+                </div>
+
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                  <span class="font-medium">Items:</span>
+                  <span class="ml-1">{{ orden.items.length }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Total y Acciones -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 lg:ml-4">
+              <div class="text-right">
+                <p class="text-sm text-gray-600">Total</p>
+                <p class="text-2xl font-bold text-gray-900">
+                  {{ orden.montoTotal | number:'1.2-2' }} <span class="text-lg">{{ orden.moneda }}</span>
+                </p>
+              </div>
+
+              <div class="flex gap-2 w-full sm:w-auto">
+                <button (click)="toggleDetalles(orden.id)"
+                  class="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium">
+                  <span *ngIf="ordenExpandida !== orden.id">items</span>
+                  <span *ngIf="ordenExpandida === orden.id">Ocultar</span>
+                </button>
+
+                <!-- Botón modificado -->
+                <button *ngIf="orden.estado === 'PENDIENTE'" (click)="abrirModalConfirmacion(orden)"
+                  class="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 text-sm font-medium whitespace-nowrap">
+                  Completar
+                </button>
+
+                <!-- Modal de Confirmación -->
+                <div *ngIf="mostrarModal"
+                  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+                  (click)="cerrarModal()">
+
+                  <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 transform transition-all"
+                    (click)="$event.stopPropagation()">
+
+                    <!-- Encabezado -->
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                          </path>
+                        </svg>
+                      </div>
+                      <h3 class="text-xl font-semibold text-gray-900">
+                        Confirmar Completar Orden
+                      </h3>
+                    </div>
+
+                    <!-- Contenido -->
+                    <div class="mb-6">
+                      <p class="text-gray-600 mb-2">
+                        ¿Estás seguro de que deseas marcar esta orden como completada?
+                      </p>
+                      <p class="text-sm text-gray-500" *ngIf="ordenSeleccionada">
+                        Orden #{{ ordenSeleccionada.id }}
+                      </p>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="flex gap-3 justify-end">
+                      <button (click)="cerrarModal()"
+                        class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium">
+                        Cancelar
+                      </button>
+                      <button (click)="confirmarCompletarOrden()"
+                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium">
+                        Sí, Completar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detalles de Items (Expandible) -->
+        <div *ngIf="ordenExpandida === orden.id" class="border-t border-gray-200 bg-gray-50 p-4 md:p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">Items de la Orden</h3>
+
+          <!-- Vista Desktop -->
+          <div class="hidden md:block overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Producto
+                  </th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">Cantidad
+                  </th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">Precio
+                    Unit.</th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">Descuento
+                  </th>
+                  <th class="px-4 py-3 text-right text-xs font-medium text-gray-700 uppercase tracking-wider">Total Item
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of orden.items" class="hover:bg-gray-50">
+                  <td class="px-4 py-3 text-sm text-gray-900">{{ item.productoNombre }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ item.cantidad }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-900 text-right">{{ item.precioUnitario | number:'1.2-2' }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-900 text-right">
+                    <span *ngIf="item.descuentoUnitario > 0" class="text-red-600">
+                      -{{ item.subtotalDescuento | number:'1.2-2' }}
+                    </span>
+                    <span *ngIf="item.descuentoUnitario === 0" class="text-gray-400">-</span>
+                  </td>
+                  <td class="px-4 py-3 text-sm font-semibold text-gray-900 text-right">
+                    {{ item.totalItem | number:'1.2-2' }} {{ orden.moneda }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Vista Mobile -->
+          <div class="md:hidden space-y-3">
+            <div *ngFor="let item of orden.items" class="bg-white rounded-lg p-4 border border-gray-200">
+              <h4 class="font-semibold text-gray-900 mb-2">{{ item.productoNombre }}</h4>
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <span class="text-gray-600">Cantidad:</span>
+                  <span class="ml-1 font-medium">{{ item.cantidad }}</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-gray-600">Precio Unit.:</span>
+                  <span class="ml-1 font-medium">{{ item.precioUnitario | number:'1.2-2' }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-600">Descuento:</span>
+                  <span *ngIf="item.descuentoUnitario > 0" class="ml-1 font-medium text-red-600">
+                    -{{ item.subtotalDescuento | number:'1.2-2' }}
+                  </span>
+                  <span *ngIf="item.descuentoUnitario === 0" class="ml-1 text-gray-400">-</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-gray-600">Total:</span>
+                  <span class="ml-1 font-bold text-gray-900">
+                    {{ item.totalItem | number:'1.2-2' }} {{ orden.moneda }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen del Total -->
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <div class="flex justify-end">
+              <div class="text-right">
+                <p class="text-sm text-gray-600 mb-1">Total de la Orden</p>
+                <p class="text-2xl font-bold text-gray-900">
+                  {{ orden.montoTotal | number:'1.2-2' }} {{ orden.moneda }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje si no hay órdenes -->
+    <div *ngIf="listOrdenesVenta.length === 0" class="bg-white rounded-lg shadow-md p-12 text-center">
+      <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <h3 class="text-xl font-semibold text-gray-900 mb-2">No hay órdenes de compra</h3>
+      <p class="text-gray-600">Las órdenes de compra aparecerán aquí cuando se creen.</p>
+    </div>
+  </div>
+</div>
+
+
+
+@if (success) {
+  <div class="fixed inset-0 z-50 grid place-items-center bg-white/50 backdrop-blur-sm">
+    <div class="flex flex-col items-center justify-center bg-green-100 border border-green-300 text-green-800 rounded-lg p-6 animate-fade-in">
+      <svg class="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+      <span class="text-lg font-semibold">¡Operación exitosa!</span>
+    </div>
+  </div>
+}

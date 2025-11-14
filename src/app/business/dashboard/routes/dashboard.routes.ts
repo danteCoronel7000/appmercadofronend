@@ -6,5 +6,9 @@ export const DASHBOARD_ROUTES: Routes = [
         path: 'metricas',
         loadComponent: () => import('../components/metricas/metricas'),
         canActivate: [areYouLoggedInGuard]
+    },
+    {
+        path: 'ventasdash',
+        loadComponent: () => import('../components/layout-dash/layout-dash')
     }
 ]

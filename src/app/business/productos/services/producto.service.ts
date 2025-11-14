@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Producto, ProductoDTOForWeb } from '../models/producto.model';
+import { Producto, ProductoDTOForWeb, ProductoUpdate } from '../models/producto.model';
 import { PageableResponse } from '../../../shared/models/shared.model';
 import { ProductoDtoCompras } from '../../compras/models/compras.model';
 
@@ -43,8 +43,8 @@ export class ProductoService {
     return this.httpClient.get<ProductoDtoCompras>(`${this.url_publica}/producto/id/compras`)
   }
 
-  updateProducto(formData: FormData): Observable<Producto> {
-    return this.httpClient.put<Producto>(`${this.url}/update`, formData);
+  updateProducto(formData: FormData): Observable<ProductoUpdate> {
+    return this.httpClient.put<ProductoUpdate>(`${this.url}/update`, formData);
   }
 
   getProductoById(id: number): Observable<Producto> {

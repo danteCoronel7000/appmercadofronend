@@ -91,6 +91,7 @@ export default class RegistrarCompra {
         this.productoService.getProductoByIdForCompraDto(productoId).subscribe({
           next: (response) => {
             itemGroup.get('precioUnitario')?.setValue(response.precio, { emitEvent: true });
+            console.log('precio compra ', response.precio)
           },
           error: (error) => {
             console.error('Error al obtener el producto para llenar el campo:', error);
@@ -258,6 +259,7 @@ export default class RegistrarCompra {
 
   // Incrementar cantidad
   incrementQuantity(index: number) {
+    console.log('index: ', index)
     const item = this.itemsCompra.at(index);
     const currentValue = item.get('cantidad')?.value || 0;
     item.get('cantidad')?.setValue(currentValue + 1);

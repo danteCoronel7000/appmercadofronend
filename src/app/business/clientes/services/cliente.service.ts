@@ -35,6 +35,10 @@ getClientes(): Observable<Cliente[]> {
   return this.httpClient.get<Cliente[]>(`${this.url_publica}/all`);
 }
 
+getClientesForVenta(): Observable<ClienteDTOForWeb[]> {
+  return this.httpClient.get<ClienteDTOForWeb[]>(`${this.url_publica}/all`);
+}
+
 updateCliente(formData: FormData): Observable<Cliente> {
   return this.httpClient.put<Cliente>(`${this.url}/update`, formData);
 }

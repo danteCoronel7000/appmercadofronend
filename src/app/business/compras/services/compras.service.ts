@@ -72,6 +72,11 @@ export class ComprasService {
     );
   }
 
+
+  cambiarEstadoACompletada(ordenId: number): Observable<OrdenCompraResponse> {
+    return this.httpClient.patch<OrdenCompraResponse>(`${this.apiUrl}/completar/${ordenId}`, {});
+  }
+
   /**
    * Elimina una orden de compra
    * @param id ID de la orden de compra
